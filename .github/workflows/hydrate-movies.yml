@@ -1,4 +1,4 @@
-name: Hydrate Movies Catalog (TMDB + OMDb)
+name: Hydrate Movies Catalog (TMDB + OMDb + Popcornmeter)
 
 on:
   schedule:
@@ -34,6 +34,9 @@ jobs:
           DAILY_OMDB_CAP: ${{ github.event.inputs.daily_cap || '900' }}
         run: node scripts/hydrate-movies.mjs
 
+      - name: Merge Popcornmeter audience scores
+        run: node scripts/merge-popcorn.mjs
+
       - name: Commit and push updated movies.json
         run: |
           git config user.name "github-actions[bot]"
@@ -42,6 +45,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to movies.json"
           else
-            git commit -m "chore(catalog): hydrate movies.json via TMDB + OMDb [skip ci]"
+            git commit -m "chore(catalog): hydrate movies.json & merge Popcornmeter scores [skip ci]"
             git push
           fi
