@@ -11,6 +11,10 @@ on:
         required: false
         default: '900'
 
+concurrency:
+  group: hydrate-movies-catalog
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -46,5 +50,6 @@ jobs:
             echo "No changes to movies.json"
           else
             git commit -m "chore(catalog): hydrate movies.json & merge Popcornmeter scores [skip ci]"
+            git pull --rebase origin main
             git push
           fi
