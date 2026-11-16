@@ -1,0 +1,47 @@
+name: Hydrate Movies Catalog (TMDB + OMDb)
+
+on:
+  schedule:
+    # Runs daily at 06:00 UTC (01:00 AM EST / 02:00 AM EDT)
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      daily_cap:
+        description: 'Max OMDb requests for this run (keep <= 950 on free tier)'
+        required: false
+        default: '900'
+
+permissions:
+  contents: write
+
+jobs:
+  hydrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run TMDB + OMDb hydration script
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
+          DAILY_OMDB_CAP: ${{ github.event.inputs.daily_cap || '900' }}
+        run: node scripts/hydrate-movies.mjs
+
+      - name: Commit and push updated movies.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add movies.json
+          if git diff --staged --quiet; then
+            echo "No changes to movies.json"
+          else
+            git commit -m "chore(catalog): hydrate movies.json via TMDB + OMDb [skip ci]"
+            git push
+          fi
