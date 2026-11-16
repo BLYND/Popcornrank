@@ -1,0 +1,1249 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PopcornRank — Audience Score Movie Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        google: {
+                            bg: '#F8F9FA',
+                            surface: '#FFFFFF',
+                            hover: '#F1F3F4',
+                            border: '#DADCE0',
+                            text: '#202124',
+                            subtext: '#5F6368',
+                            blue: '#1A73E8',
+                            blueHover: '#1557B0',
+                            blueLight: '#E8F0FE',
+                            green: '#188038',
+                            greenLight: '#E6F4EA',
+                            red: '#D93025',
+                            redLight: '#FCE8E6',
+                            yellow: '#F9AB00',
+                            yellowLight: '#FEF7E0',
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        input[type="range"] { -webkit-appearance: none; appearance: none; background: transparent; cursor: pointer; }
+        input[type="range"]::-webkit-slider-runnable-track { height: 6px; border-radius: 9999px; background: #E8EAED; }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; appearance: none; margin-top: -6px;
+            background-color: #1A73E8; height: 18px; width: 18px; border-radius: 9999px;
+            border: 2px solid #FFFFFF; box-shadow: 0 1px 4px rgba(60,64,67,0.35);
+        }
+        .movie-card { transition: transform 0.18s ease, box-shadow 0.18s ease; box-shadow: 0 1px 2px rgba(60,64,67,0.08); }
+        .movie-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(60,64,67,0.12); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .movie-tile-title { overflow-wrap: break-word; word-break: normal; hyphens: none; }
+    </style>
+</head>
+<body class="bg-google-bg text-google-text min-h-screen flex flex-col antialiased">
+
+    <!-- Top App Bar -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-google-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="resetAllFilters()">
+                <div class="w-10 h-10 rounded-full bg-google-yellowLight border border-google-yellow/40 flex items-center justify-center text-xl">🍿</div>
+                <div>
+                    <h1 class="font-extrabold text-xl tracking-tight text-google-text">Popcorn<span class="text-google-blue">Rank</span></h1>
+                    <p class="text-[11px] text-google-subtext hidden sm:block font-medium">Audience Score Movie Explorer</p>
+                </div>
+            </div>
+
+            <div class="flex-1 max-w-xl w-full order-3 md:order-2">
+                <div class="relative">
+                    <svg class="w-4 h-4 text-google-subtext absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search movies by title, year, director, or cast..." class="w-full bg-google-hover hover:bg-white focus:bg-white border border-transparent focus:border-google-blue rounded-full pl-11 pr-9 py-2 text-sm text-google-text placeholder-google-subtext outline-none transition">
+                    <button id="clearSearchBtn" type="button" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-google-subtext hover:text-google-text p-1 rounded-full">✕</button>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 order-2 md:order-3">
+                <button type="button" onclick="openOmdbModal()" class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-google-blueLight text-google-blue border border-google-blue/25 hover:bg-blue-100 transition cursor-pointer">
+                    <span class="w-2 h-2 rounded-full bg-google-green animate-pulse"></span>
+                    <span id="headerSyncStatus">Live Sync Active · 0 synced</span>
+                </button>
+                <button type="button" id="watchlistToggleBtn" onclick="toggleWatchlistMode()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium border border-google-border bg-white hover:bg-google-hover text-google-text transition cursor-pointer">
+                    <span>🔖</span>
+                    <span class="hidden sm:inline">Watchlist</span>
+                    <span id="watchlistCountBadge" class="px-1.5 py-0.5 text-xs rounded-full bg-google-blueLight text-google-blue font-bold">0</span>
+                </button>
+                <button type="button" onclick="openOmdbModal()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs sm:text-sm font-medium border border-google-border bg-white hover:bg-google-hover text-google-text transition cursor-pointer">
+                    <span>🔄</span>
+                    <span>Live Sync</span>
+                </button>
+                <button type="button" onclick="openAddMovieModal()" class="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold bg-google-blue hover:bg-google-blueHover text-white shadow-xs transition cursor-pointer">
+                    <span>+ Add Movie</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-5">
+
+        <!-- Filter & Sort Control Card -->
+        <section class="bg-white border border-google-border rounded-2xl p-4 sm:p-5 space-y-4">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+                <!-- Sort Selector -->
+                <div class="lg:col-span-4 space-y-1.5">
+                    <label for="sortSelect" class="block text-[11px] font-bold uppercase tracking-wider text-google-subtext">Sort Catalog By</label>
+                    <select id="sortSelect" class="w-full bg-google-bg hover:bg-google-hover focus:bg-white border border-google-border focus:border-google-blue rounded-xl px-3.5 py-2.5 text-sm font-medium text-google-text outline-none cursor-pointer">
+                        <option value="audience-avg-desc" selected>🏆 Audience Avg: High to Low (Popcorn + IMDb ×10)</option>
+                        <option value="audience-avg-asc">📉 Audience Avg: Low to High</option>
+                        <option value="popcorn-desc">🍿 Highest Popcornmeter (RT Audience)</option>
+                        <option value="imdb-desc">⭐ Highest IMDb Score (×10)</option>
+                        <option value="tomato-desc">🍅 Highest Tomatometer (Critics)</option>
+                        <option value="reviews-desc">👥 Most Verified Audience Reviews</option>
+                        <option value="gap-desc">🔥 Biggest Audience Boost (vs Critics)</option>
+                        <option value="year-desc">📅 Release Year (Newest First)</option>
+                        <option value="year-asc">🎞️ Release Year (Oldest First)</option>
+                        <option value="title-asc">🔤 Title (A – Z)</option>
+                    </select>
+                    <p class="text-[11px] text-google-subtext">Default: ((Popcorn + IMDb ×10) ÷ 2), or IMDb ×10 when Popcorn is N/A</p>
+                </div>
+
+                <!-- Min Popcornmeter Slider -->
+                <div class="lg:col-span-4 bg-google-bg border border-google-border/80 rounded-xl p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-google-subtext">Min Popcornmeter: <strong id="minPopcornVal" class="text-google-blue">0%</strong></span>
+                        <div class="flex gap-1">
+                            <button type="button" onclick="setMinPopcorn(0)" data-pop="0" class="pop-preset px-2 py-0.5 rounded-full text-[11px] font-semibold bg-google-blueLight text-google-blue border border-google-blue/30 cursor-pointer">All</button>
+                            <button type="button" onclick="setMinPopcorn(60)" data-pop="60" class="pop-preset px-2 py-0.5 rounded-full text-[11px] font-medium bg-white text-google-subtext border border-google-border cursor-pointer">60%+</button>
+                            <button type="button" onclick="setMinPopcorn(90)" data-pop="90" class="pop-preset px-2 py-0.5 rounded-full text-[11px] font-medium bg-white text-google-subtext border border-google-border cursor-pointer">90%+</button>
+                        </div>
+                    </div>
+                    <input type="range" id="popcornSlider" min="0" max="100" value="0" class="w-full">
+                </div>
+
+                <!-- Min IMDb (x10) Slider -->
+                <div class="lg:col-span-4 bg-google-bg border border-google-border/80 rounded-xl p-3.5 space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-google-subtext">Min IMDb (×10): <strong id="minImdbVal" class="text-amber-700">0%</strong></span>
+                        <div class="flex gap-1">
+                            <button type="button" onclick="setMinImdb(0)" data-imdb="0" class="imdb-preset px-2 py-0.5 rounded-full text-[11px] font-semibold bg-google-yellowLight text-amber-900 border border-google-yellow/50 cursor-pointer">All</button>
+                            <button type="button" onclick="setMinImdb(70)" data-imdb="70" class="imdb-preset px-2 py-0.5 rounded-full text-[11px] font-medium bg-white text-google-subtext border border-google-border cursor-pointer">70+</button>
+                            <button type="button" onclick="setMinImdb(80)" data-imdb="80" class="imdb-preset px-2 py-0.5 rounded-full text-[11px] font-medium bg-white text-google-subtext border border-google-border cursor-pointer">80+</button>
+                        </div>
+                    </div>
+                    <input type="range" id="imdbSlider" min="0" max="100" value="0" class="w-full">
+                </div>
+            </div>
+
+            <!-- 500+ Minimum Reviews Filter Bar -->
+            <div class="bg-google-blueLight/50 border border-google-blue/25 rounded-xl p-3 sm:px-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                    <label class="inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="minReviewsToggle" checked class="sr-only peer">
+                        <div class="w-10 h-5 bg-slate-300 rounded-full peer peer-checked:after:translate-x-5 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-google-blue relative"></div>
+                    </label>
+                    <div class="text-xs sm:text-sm font-medium text-google-text">
+                        Require at least <strong id="minReviewsLabel" class="text-google-blue">500</strong> verified audience reviews
+                        <span id="reviewStatusBadge" class="ml-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-google-blue text-white">Active</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 md:w-80 bg-white px-3.5 py-1.5 rounded-xl border border-google-border">
+                    <span class="text-[11px] font-semibold text-google-subtext whitespace-nowrap">Min Reviews:</span>
+                    <input type="range" id="minReviewsSlider" min="0" max="10000" step="100" value="500" class="w-full">
+                    <span id="minReviewsVal" class="text-xs font-bold text-google-blue min-w-[52px] text-right">500+</span>
+                </div>
+            </div>
+
+            <!-- Collection & Genre Filter Pills -->
+            <div class="pt-3 border-t border-google-border/80 space-y-3">
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-google-subtext shrink-0">Collection:</span>
+                    <div id="collectionPillsContainer" class="flex items-center gap-1.5"></div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-google-subtext shrink-0">Genre:</span>
+                        <div id="genrePillsContainer" class="flex items-center gap-1.5"></div>
+                    </div>
+                    <label class="inline-flex items-center gap-2 cursor-pointer select-none shrink-0">
+                        <input type="checkbox" id="crowdPleaserOnly" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-300 rounded-full peer peer-checked:after:translate-x-4 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-google-green relative"></div>
+                        <span class="text-xs font-medium text-google-subtext">Audience &gt; Critics Only</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Summary & Semantic Legend -->
+        <div class="flex flex-wrap items-center justify-between gap-3 px-1">
+            <div class="flex flex-wrap items-center gap-2">
+                <h2 id="gridHeading" class="font-bold text-lg text-google-text">All Movies</h2>
+                <span id="resultsCount" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-white text-google-subtext border border-google-border">0 titles</span>
+                <span id="hiddenLowReviewsBadge" class="hidden px-2.5 py-0.5 rounded-full text-xs font-medium bg-google-yellowLight text-amber-900 border border-google-yellow/40"></span>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 text-xs text-google-subtext font-medium">
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-google-blue"></span>Audience Avg</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-google-yellow"></span>90%+ Verified Hot</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-google-green"></span>60–89% Fresh</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-google-red"></span>&lt;60% Spilled</span>
+            </div>
+        </div>
+
+        <!-- Movies Grid -->
+        <section id="moviesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></section>
+
+        <!-- Pagination -->
+        <div id="paginationBar" class="hidden flex flex-wrap items-center justify-center gap-3 pt-3">
+            <button type="button" id="loadMoreBtn" onclick="loadMoreMovies()" class="px-6 py-2.5 rounded-full text-sm font-semibold bg-google-blue hover:bg-google-blueHover text-white shadow-xs transition cursor-pointer">Load More</button>
+            <button type="button" onclick="showAllFilteredMovies()" class="px-5 py-2.5 rounded-full text-sm font-medium bg-white hover:bg-google-hover text-google-text border border-google-border transition cursor-pointer">Show All</button>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="hidden py-14 px-4 text-center bg-white border border-google-border rounded-2xl space-y-3">
+            <div class="text-3xl">🍿</div>
+            <h3 class="font-bold text-lg text-google-text">No movies match your filters</h3>
+            <p class="text-sm text-google-subtext max-w-md mx-auto">Adjust your score sliders, switch genres, or search OMDb live to import more movies.</p>
+            <div class="flex justify-center gap-2 pt-2">
+                <button type="button" onclick="resetAllFilters()" class="px-5 py-2 rounded-full bg-google-blue text-white text-sm font-semibold cursor-pointer">Reset Filters</button>
+                <button type="button" onclick="openOmdbModal()" class="px-5 py-2 rounded-full bg-white border border-google-border text-sm font-medium cursor-pointer">Search OMDb Live</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-google-border bg-white py-5 mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-google-subtext">
+            <div><strong class="text-google-text">PopcornRank</strong> • Ranked by Combined Audience Average ((Popcornmeter + IMDb ×10) ÷ 2)</div>
+            <div id="footerSyncStatus">Live Sync Active • 500+ review filter enabled</div>
+        </div>
+    </footer>
+
+    <!-- Movie Detail Modal -->
+    <div id="movieModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+        <div class="bg-white border border-google-border rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
+            <button type="button" onclick="closeMovieModal()" class="absolute top-3.5 right-3.5 z-10 w-9 h-9 rounded-full bg-white/95 hover:bg-white border border-google-border flex items-center justify-center text-google-subtext hover:text-google-text cursor-pointer">✕</button>
+            <div id="movieModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Add Movie Modal -->
+    <div id="addMovieModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+        <div class="bg-white border border-google-border rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-google-border">
+                <h3 class="font-bold text-lg text-google-text">Add Movie to PopcornRank</h3>
+                <button type="button" onclick="closeAddMovieModal()" class="w-8 h-8 rounded-full hover:bg-google-hover flex items-center justify-center text-google-subtext cursor-pointer">✕</button>
+            </div>
+            <form id="addMovieForm" class="mt-4 space-y-3.5">
+                <div>
+                    <label class="block text-xs font-bold uppercase text-google-subtext mb-1">Movie Title *</label>
+                    <input type="text" id="newTitle" required placeholder="e.g. Project Hail Mary" class="w-full bg-google-bg border border-google-border rounded-xl px-3.5 py-2 text-sm outline-none focus:border-google-blue">
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-green mb-1">Popcorn % (Opt)</label>
+                        <input type="number" id="newPopcorn" min="0" max="100" placeholder="N/A" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-amber-700 mb-1">IMDb (0-10) *</label>
+                        <input type="number" id="newImdb" required min="0" max="10" step="0.1" value="8.1" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-red mb-1">Tomato % *</label>
+                        <input type="number" id="newTomato" required min="0" max="100" value="76" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm font-bold outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-blue mb-1">Reviews *</label>
+                        <input type="number" id="newReviews" required min="1" value="2500" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm font-bold outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2.5">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-subtext mb-1">Year *</label>
+                        <input type="number" id="newYear" required min="1900" max="2030" value="2026" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-subtext mb-1">Genre</label>
+                        <select id="newGenre" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm outline-none">
+                            <option value="Action">Action</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Rom-Com">Rom-Com</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Horror">Horror</option>
+                            <option value="Animation">Animation</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-subtext mb-1">Runtime</label>
+                        <input type="text" id="newRuntime" value="2h 05m" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-subtext mb-1">Director</label>
+                        <input type="text" id="newDirector" placeholder="Director name" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase text-google-subtext mb-1">Cast</label>
+                        <input type="text" id="newCast" placeholder="Actor 1, Actor 2" class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm outline-none">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold uppercase text-google-subtext mb-1">Synopsis</label>
+                    <textarea id="newSynopsis" rows="2" placeholder="Brief summary..." class="w-full bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm outline-none"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAddMovieModal()" class="px-4 py-2 rounded-full text-sm font-medium text-google-subtext hover:bg-google-hover cursor-pointer">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-full text-sm font-semibold bg-google-blue text-white hover:bg-google-blueHover cursor-pointer">Save Movie</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Live OMDb Sync Modal (API Key Masked by Default) -->
+    <div id="omdbModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+        <div class="bg-white border border-google-border rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-google-border">
+                <div>
+                    <h3 class="font-bold text-lg text-google-text">Live OMDb Sync &amp; New Releases</h3>
+                    <p class="text-xs text-google-subtext">Automatically enriches posters, IMDb (×10), Tomatometer, and 2025–2026 releases</p>
+                </div>
+                <button type="button" onclick="closeOmdbModal()" class="w-8 h-8 rounded-full hover:bg-google-hover flex items-center justify-center text-google-subtext cursor-pointer">✕</button>
+            </div>
+
+            <!-- Masked API Key & Batch Hydration -->
+            <div class="bg-google-bg border border-google-border rounded-xl p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-google-subtext">OMDb API Key (Masked)</span>
+                    <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-google-greenLight text-google-green">Connected &amp; Active</span>
+                </div>
+                <div class="flex gap-2">
+                    <div class="relative flex-1">
+                        <input type="password" id="omdbApiKeyInput" autocomplete="off" class="w-full bg-white border border-google-border rounded-xl pl-3.5 pr-10 py-2 text-sm font-mono outline-none focus:border-google-blue">
+                        <button type="button" onclick="toggleOmdbKeyVisibility()" id="toggleKeyVisBtn" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-google-subtext hover:text-google-text px-1.5 py-0.5 rounded cursor-pointer">Show</button>
+                    </div>
+                    <button type="button" onclick="saveOmdbKeyAndSync()" class="px-4 py-2 rounded-xl text-sm font-semibold bg-google-blue hover:bg-google-blueHover text-white cursor-pointer whitespace-nowrap">Save &amp; Sync</button>
+                </div>
+
+                <div class="pt-2 border-t border-google-border/80 space-y-2">
+                    <div class="flex items-center justify-between text-xs font-medium">
+                        <span id="modalHydrationLabel" class="text-google-text">0 movies enriched with live OMDb data</span>
+                        <span id="modalHydrationPct" class="text-google-blue font-bold">0%</span>
+                    </div>
+                    <div class="w-full h-2 bg-google-hover rounded-full overflow-hidden">
+                        <div id="modalHydrationBar" class="h-full bg-google-green transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        <button type="button" onclick="hydrateNextBatch(40, false)" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-google-blue text-white hover:bg-google-blueHover cursor-pointer">⚡ Enrich Next 40 Movies</button>
+                        <button type="button" onclick="syncPopularNewReleases(false)" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-google-yellowLight text-amber-900 border border-google-yellow/50 hover:bg-amber-100 cursor-pointer">🆕 Pull 2025–2026 Releases</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Search & Import -->
+            <div class="space-y-2.5">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-google-subtext">Search &amp; Import Any Movie Live</h4>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="text" id="omdbLiveSearchInput" placeholder="Movie title or IMDb ID (e.g., Sinners, Dune: Part Three)..." class="flex-1 bg-google-bg border border-google-border rounded-xl px-3.5 py-2 text-sm outline-none focus:bg-white focus:border-google-blue">
+                    <input type="number" id="omdbLiveYearInput" placeholder="Year" min="1900" max="2030" class="sm:w-24 bg-google-bg border border-google-border rounded-xl px-3 py-2 text-sm outline-none focus:bg-white focus:border-google-blue">
+                    <button type="button" onclick="searchOmdbLive()" class="px-4 py-2 rounded-xl text-sm font-semibold bg-google-hover hover:bg-slate-200 border border-google-border cursor-pointer">Fetch</button>
+                </div>
+                <div id="omdbLookupResult" class="hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Snackbar Toast -->
+    <div id="toastBanner" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-google-text text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 text-sm font-medium">
+            <span>🍿</span>
+            <span id="toastMessage">Updated!</span>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // 1. EMBEDDED OMDb API KEY & CONSTANTS (Hidden from UI)
+        // =========================================================================
+        const DEFAULT_OMDB_KEY = 'e705b0c';
+        const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+        const PAGE_SIZE = 48;
+
+        const GENRE_COLORS = {
+            'Action': ['#1A73E8', '#174EA6'],
+            'Sci-Fi': ['#0D652D', '#1A73E8'],
+            'Comedy': ['#F9AB00', '#E37400'],
+            'Rom-Com': ['#D93025', '#F9AB00'],
+            'Drama': ['#5F6368', '#202124'],
+            'Thriller': ['#3C4043', '#D93025'],
+            'Horror': ['#A50E0E', '#202124'],
+            'Animation': ['#188038', '#1A73E8']
+        };
+
+        // =========================================================================
+        // 2. SELF-CONTAINED 175+ MOVIE CATALOG (Clean JS Arrays — Zero Backtick Risk)
+        // Schema: [title, year, genre, popcorn, imdbRating, tomato, reviews, director, cast, runtime]
+        // =========================================================================
+        const SEED_CATALOG = [
+            // Top All-Time & Modern Blockbusters
+            ["The Shawshank Redemption", 1994, "Drama", 98, 9.3, 89, 250000, "Frank Darabont", "Tim Robbins, Morgan Freeman", "2h 22m"],
+            ["The Godfather", 1972, "Drama", 98, 9.2, 97, 250000, "Francis Ford Coppola", "Marlon Brando, Al Pacino", "2h 55m"],
+            ["The Dark Knight", 2008, "Action", 94, 9.0, 94, 250000, "Christopher Nolan", "Christian Bale, Heath Ledger", "2h 32m"],
+            ["The Godfather Part II", 1974, "Drama", 97, 9.0, 96, 250000, "Francis Ford Coppola", "Al Pacino, Robert De Niro", "3h 22m"],
+            ["12 Angry Men", 1957, "Drama", 97, 9.0, 100, 100000, "Sidney Lumet", "Henry Fonda, Lee J. Cobb", "1h 36m"],
+            ["Schindler's List", 1993, "Drama", 97, 9.0, 98, 250000, "Steven Spielberg", "Liam Neeson, Ralph Fiennes", "3h 15m"],
+            ["The Lord of the Rings: The Return of the King", 2003, "Action", 86, 9.0, 94, 250000, "Peter Jackson", "Elijah Wood, Viggo Mortensen", "3h 21m"],
+            ["Pulp Fiction", 1994, "Thriller", 96, 8.9, 92, 250000, "Quentin Tarantino", "John Travolta, Uma Thurman", "2h 34m"],
+            ["The Lord of the Rings: The Fellowship of the Ring", 2001, "Action", 95, 8.9, 92, 250000, "Peter Jackson", "Elijah Wood, Ian McKellen", "2h 58m"],
+            ["The Empire Strikes Back", 1980, "Sci-Fi", 97, 8.7, 95, 250000, "Irvin Kershner", "Mark Hamill, Harrison Ford", "2h 04m"],
+            ["Fight Club", 1999, "Thriller", 96, 8.8, 81, 250000, "David Fincher", "Brad Pitt, Edward Norton", "2h 19m"],
+            ["Forrest Gump", 1994, "Drama", 95, 8.8, 75, 250000, "Robert Zemeckis", "Tom Hanks, Robin Wright", "2h 22m"],
+            ["The Lord of the Rings: The Two Towers", 2002, "Action", 95, 8.8, 95, 250000, "Peter Jackson", "Elijah Wood, Ian McKellen", "2h 59m"],
+            ["Goodfellas", 1990, "Drama", 97, 8.7, 94, 250000, "Martin Scorsese", "Robert De Niro, Ray Liotta", "2h 25m"],
+            ["Top Gun: Maverick", 2022, "Action", 99, 8.2, 96, 50000, "Joseph Kosinski", "Tom Cruise, Miles Teller", "2h 10m"],
+            ["Spirited Away", 2001, "Animation", 96, 8.6, 96, 250000, "Hayao Miyazaki", "Daveigh Chase, Suzanne Pleshette", "2h 05m"],
+            ["City of God", 2002, "Drama", 97, 8.6, 91, 250000, "Fernando Meirelles", "Alexandre Rodrigues, Leandro Firmino", "2h 10m"],
+            ["Cinema Paradiso", 1988, "Drama", 97, 8.5, 90, 100000, "Giuseppe Tornatore", "Philippe Noiret, Enzo Cannavale", "2h 35m"],
+            ["The Matrix", 1999, "Sci-Fi", 85, 8.7, 83, 250000, "Lana Wachowski", "Keanu Reeves, Laurence Fishburne", "2h 16m"],
+            ["Inception", 2010, "Sci-Fi", 91, 8.8, 87, 250000, "Christopher Nolan", "Leonardo DiCaprio, Joseph Gordon-Levitt", "2h 28m"],
+            ["Se7en", 1995, "Thriller", 95, 8.6, 83, 250000, "David Fincher", "Morgan Freeman, Brad Pitt", "2h 07m"],
+            ["The Silence of the Lambs", 1991, "Thriller", 95, 8.6, 95, 250000, "Jonathan Demme", "Jodie Foster, Anthony Hopkins", "1h 58m"],
+            ["Saving Private Ryan", 1998, "Drama", 95, 8.6, 94, 250000, "Steven Spielberg", "Tom Hanks, Matt Damon", "2h 49m"],
+            ["Terminator 2: Judgment Day", 1991, "Sci-Fi", 95, 8.6, 91, 250000, "James Cameron", "Arnold Schwarzenegger, Linda Hamilton", "2h 17m"],
+            ["Back to the Future", 1985, "Sci-Fi", 95, 8.5, 93, 250000, "Robert Zemeckis", "Michael J. Fox, Christopher Lloyd", "1h 56m"],
+            ["Raiders of the Lost Ark", 1981, "Action", 96, 8.4, 93, 250000, "Steven Spielberg", "Harrison Ford, Karen Allen", "1h 55m"],
+            ["Spider-Man: Across the Spider-Verse", 2023, "Animation", 94, 8.6, 95, 25000, "Joaquim Dos Santos", "Shameik Moore, Hailee Steinfeld", "2h 20m"],
+            ["Spider-Man: No Way Home", 2021, "Action", 98, 8.2, 93, 50000, "Jon Watts", "Tom Holland, Zendaya", "2h 28m"],
+            ["Dune: Part Two", 2024, "Sci-Fi", 95, 8.5, 92, 25000, "Denis Villeneuve", "Timothée Chalamet, Zendaya", "2h 46m"],
+            ["The Wild Robot", 2024, "Animation", 98, 8.2, 97, 10000, "Chris Sanders", "Lupita Nyong'o, Pedro Pascal", "1h 42m"],
+            ["Grave of the Fireflies", 1988, "Animation", 95, 8.5, 100, 100000, "Isao Takahata", "Tsutomu Tatsumi, Ayano Shiraishi", "1h 29m"],
+            ["The Green Mile", 1999, "Drama", 94, 8.6, 79, 250000, "Frank Darabont", "Tom Hanks, Michael Clarke Duncan", "3h 09m"],
+            ["Life Is Beautiful", 1997, "Drama", 96, 8.6, 81, 250000, "Roberto Benigni", "Roberto Benigni, Nicoletta Braschi", "1h 56m"],
+            ["The Departed", 2006, "Thriller", 94, 8.5, 91, 250000, "Martin Scorsese", "Leonardo DiCaprio, Matt Damon", "2h 31m"],
+            ["Whiplash", 2014, "Drama", 94, 8.5, 94, 100000, "Damien Chazelle", "Miles Teller, J.K. Simmons", "1h 46m"],
+            ["Ford v Ferrari", 2019, "Drama", 98, 8.1, 92, 25000, "James Mangold", "Matt Damon, Christian Bale", "2h 32m"],
+            ["Interstellar", 2014, "Sci-Fi", 86, 8.7, 73, 100000, "Christopher Nolan", "Matthew McConaughey, Anne Hathaway", "2h 49m"],
+            ["Aliens", 1986, "Sci-Fi", 94, 8.4, 98, 250000, "James Cameron", "Sigourney Weaver, Michael Biehn", "2h 17m"],
+            ["The Lion King", 1994, "Animation", 93, 8.5, 92, 250000, "Roger Allers", "Matthew Broderick, Jeremy Irons", "1h 28m"],
+            ["The Prestige", 2006, "Thriller", 92, 8.5, 77, 250000, "Christopher Nolan", "Christian Bale, Hugh Jackman", "2h 10m"],
+            ["Coco", 2017, "Animation", 94, 8.4, 97, 25000, "Lee Unkrich", "Anthony Gonzalez, Gael García Bernal", "1h 45m"],
+            ["Spider-Man: Into the Spider-Verse", 2018, "Animation", 94, 8.4, 97, 25000, "Bob Persichetti", "Shameik Moore, Jake Johnson", "1h 57m"],
+            ["Your Name.", 2016, "Animation", 94, 8.4, 98, 10000, "Makoto Shinkai", "Ryunosuke Kamiki, Mone Kamishiraishi", "1h 46m"],
+            ["Django Unchained", 2012, "Drama", 92, 8.5, 87, 250000, "Quentin Tarantino", "Jamie Foxx, Christoph Waltz", "2h 45m"],
+            ["Die Hard", 1988, "Action", 94, 8.2, 94, 250000, "John McTiernan", "Bruce Willis, Alan Rickman", "2h 12m"],
+            ["Indiana Jones and the Last Crusade", 1989, "Action", 94, 8.2, 84, 250000, "Steven Spielberg", "Harrison Ford, Sean Connery", "2h 07m"],
+            ["Memento", 2000, "Thriller", 94, 8.4, 94, 250000, "Christopher Nolan", "Guy Pearce, Carrie-Anne Moss", "1h 53m"],
+            ["Amadeus", 1984, "Drama", 95, 8.4, 89, 100000, "Milos Forman", "F. Murray Abraham, Tom Hulce", "2h 40m"],
+            ["The Shining", 1980, "Horror", 93, 8.4, 83, 250000, "Stanley Kubrick", "Jack Nicholson, Shelley Duvall", "2h 26m"],
+            ["Return of the Jedi", 1983, "Sci-Fi", 94, 8.3, 83, 250000, "Richard Marquand", "Mark Hamill, Harrison Ford", "2h 11m"],
+            ["Amélie", 2001, "Rom-Com", 95, 8.3, 90, 250000, "Jean-Pierre Jeunet", "Audrey Tautou, Mathieu Kassovitz", "2h 02m"],
+            ["Eternal Sunshine of the Spotless Mind", 2004, "Rom-Com", 94, 8.3, 92, 250000, "Michel Gondry", "Jim Carrey, Kate Winslet", "1h 48m"],
+            ["Good Will Hunting", 1997, "Drama", 94, 8.3, 97, 250000, "Gus Van Sant", "Robin Williams, Matt Damon", "2h 06m"],
+            ["Godzilla Minus One", 2023, "Sci-Fi", 98, 7.7, 99, 10000, "Takashi Yamazaki", "Ryunosuke Kamiki, Minami Hamabe", "2h 04m"],
+            ["Parasite", 2019, "Thriller", 90, 8.5, 99, 10000, "Bong Joon Ho", "Song Kang-ho, Lee Sun-kyun", "2h 12m"],
+            ["The Princess Bride", 1987, "Rom-Com", 94, 8.0, 96, 250000, "Rob Reiner", "Cary Elwes, Robin Wright", "1h 38m"],
+            ["Before Sunrise", 1995, "Rom-Com", 93, 8.1, 100, 100000, "Richard Linklater", "Ethan Hawke, Julie Delpy", "1h 41m"],
+            ["Oppenheimer", 2023, "Drama", 91, 8.3, 93, 25000, "Christopher Nolan", "Cillian Murphy, Emily Blunt", "3h 00m"],
+            ["WALL·E", 2008, "Animation", 90, 8.4, 95, 250000, "Andrew Stanton", "Ben Burtt, Elissa Knight", "1h 38m"],
+            ["The Thing", 1982, "Horror", 92, 8.2, 85, 250000, "John Carpenter", "Kurt Russell, Wilford Brimley", "1h 49m"],
+            ["My Neighbor Totoro", 1988, "Animation", 94, 8.1, 93, 100000, "Hayao Miyazaki", "Hitoshi Takagi, Noriko Hidaka", "1h 26m"],
+            ["Stand by Me", 1986, "Drama", 94, 8.1, 92, 250000, "Rob Reiner", "Wil Wheaton, River Phoenix", "1h 29m"],
+            ["Avengers: Endgame", 2019, "Action", 90, 8.4, 94, 50000, "Anthony Russo", "Robert Downey Jr., Chris Evans", "3h 01m"],
+            ["Avengers: Infinity War", 2018, "Action", 92, 8.4, 85, 50000, "Anthony Russo", "Robert Downey Jr., Chris Hemsworth", "2h 29m"],
+            ["Toy Story", 1995, "Animation", 92, 8.3, 100, 250000, "John Lasseter", "Tom Hanks, Tim Allen", "1h 21m"],
+            ["Toy Story 3", 2010, "Animation", 90, 8.3, 98, 250000, "Lee Unkrich", "Tom Hanks, Tim Allen", "1h 43m"],
+            ["Jurassic Park", 1993, "Sci-Fi", 91, 8.2, 91, 250000, "Steven Spielberg", "Sam Neill, Laura Dern", "2h 07m"],
+            ["The Big Lebowski", 1998, "Comedy", 93, 8.1, 80, 250000, "Joel Coen", "Jeff Bridges, John Goodman", "1h 57m"],
+            ["Up", 2009, "Animation", 90, 8.3, 98, 250000, "Pete Docter", "Edward Asner, Jordan Nagai", "1h 36m"],
+            ["Before Sunset", 2004, "Rom-Com", 91, 8.1, 94, 100000, "Richard Linklater", "Ethan Hawke, Julie Delpy", "1h 20m"],
+            ["Gladiator", 2000, "Action", 87, 8.5, 80, 250000, "Ridley Scott", "Russell Crowe, Joaquin Phoenix", "2h 35m"],
+            ["Blade Runner", 1982, "Sci-Fi", 91, 8.1, 89, 250000, "Ridley Scott", "Harrison Ford, Rutger Hauer", "1h 57m"],
+            ["Akira", 1988, "Animation", 91, 8.0, 91, 100000, "Katsuhiro Otomo", "Mitsuo Iwata, Nozomu Sasaki", "2h 04m"],
+            ["The Truman Show", 1998, "Drama", 89, 8.2, 94, 250000, "Peter Weir", "Jim Carrey, Ed Harris", "1h 43m"],
+            ["Inside Out 2", 2024, "Animation", 95, 7.6, 91, 25000, "Kelsey Mann", "Amy Poehler, Maya Hawke", "1h 36m"],
+            ["Knives Out", 2019, "Thriller", 92, 7.9, 97, 25000, "Rian Johnson", "Daniel Craig, Ana de Armas", "2h 10m"],
+            ["Wicked", 2024, "Drama", 95, 7.5, 88, 25000, "Jon M. Chu", "Cynthia Erivo, Ariana Grande", "2h 40m"],
+            ["Deadpool & Wolverine", 2024, "Action", 94, 7.6, 78, 25000, "Shawn Levy", "Ryan Reynolds, Hugh Jackman", "2h 08m"],
+            ["The Breakfast Club", 1985, "Drama", 92, 7.8, 89, 250000, "John Hughes", "Emilio Estevez, Molly Ringwald", "1h 37m"],
+            ["Ferris Bueller's Day Off", 1986, "Comedy", 92, 7.8, 83, 250000, "John Hughes", "Matthew Broderick, Alan Ruck", "1h 43m"],
+            ["The Terminator", 1984, "Sci-Fi", 89, 8.1, 100, 250000, "James Cameron", "Arnold Schwarzenegger, Linda Hamilton", "1h 47m"],
+            ["Shaun of the Dead", 2004, "Horror", 93, 7.9, 92, 250000, "Edgar Wright", "Simon Pegg, Nick Frost", "1h 39m"],
+            ["Hot Fuzz", 2007, "Comedy", 89, 7.8, 91, 250000, "Edgar Wright", "Simon Pegg, Nick Frost", "2h 01m"],
+            ["The Incredibles", 2004, "Animation", 75, 8.0, 97, 250000, "Brad Bird", "Craig T. Nelson, Holly Hunter", "1h 55m"],
+            ["Finding Nemo", 2003, "Animation", 86, 8.2, 99, 250000, "Andrew Stanton", "Albert Brooks, Ellen DeGeneres", "1h 40m"],
+            ["Monsters, Inc.", 2001, "Animation", 90, 8.1, 96, 250000, "Pete Docter", "Billy Crystal, John Goodman", "1h 32m"],
+            ["Ratatouille", 2007, "Animation", 87, 8.1, 96, 250000, "Brad Bird", "Patton Oswalt, Lou Romano", "1h 51m"],
+            ["Groundhog Day", 1993, "Rom-Com", 88, 8.0, 94, 250000, "Harold Ramis", "Bill Murray, Andie MacDowell", "1h 41m"],
+            ["Office Space", 1999, "Comedy", 93, 7.6, 80, 250000, "Mike Judge", "Ron Livingston, Jennifer Aniston", "1h 29m"],
+            ["When Harry Met Sally...", 1989, "Rom-Com", 89, 7.7, 88, 100000, "Rob Reiner", "Billy Crystal, Meg Ryan", "1h 35m"],
+            ["Pride & Prejudice", 2005, "Rom-Com", 89, 7.8, 87, 250000, "Joe Wright", "Keira Knightley, Matthew Macfadyen", "2h 09m"],
+            ["The Super Mario Bros. Movie", 2023, "Animation", 95, 7.0, 59, 50000, "Aaron Horvath", "Chris Pratt, Anya Taylor-Joy", "1h 32m"],
+            ["Ghostbusters", 1984, "Comedy", 88, 7.8, 95, 250000, "Ivan Reitman", "Bill Murray, Dan Aykroyd", "1h 45m"],
+            ["Airplane!", 1980, "Comedy", 89, 7.7, 97, 250000, "Jim Abrahams", "Robert Hays, Leslie Nielsen", "1h 28m"],
+            ["The Blues Brothers", 1980, "Comedy", 92, 7.9, 73, 250000, "John Landis", "John Belushi, Dan Aykroyd", "2h 13m"],
+            ["This Is Spinal Tap", 1984, "Comedy", 92, 7.9, 96, 100000, "Rob Reiner", "Michael McKean, Christopher Guest", "1h 22m"],
+            ["Who Framed Roger Rabbit", 1988, "Comedy", 88, 7.7, 96, 250000, "Robert Zemeckis", "Bob Hoskins, Christopher Lloyd", "1h 44m"],
+            ["The Goonies", 1985, "Comedy", 91, 7.7, 77, 250000, "Richard Donner", "Sean Astin, Josh Brolin", "1h 54m"],
+            ["Predator", 1987, "Action", 87, 7.8, 80, 250000, "John McTiernan", "Arnold Schwarzenegger, Carl Weathers", "1h 47m"],
+            ["Mad Max: Fury Road", 2015, "Action", 86, 8.1, 97, 100000, "George Miller", "Tom Hardy, Charlize Theron", "2h 00m"],
+            ["Edge of Tomorrow", 2014, "Sci-Fi", 90, 7.9, 91, 100000, "Doug Liman", "Tom Cruise, Emily Blunt", "1h 53m"],
+            ["Little Miss Sunshine", 2006, "Comedy", 91, 7.8, 91, 250000, "Jonathan Dayton", "Steve Carell, Toni Collette", "1h 41m"],
+            ["Superbad", 2007, "Comedy", 87, 7.6, 88, 250000, "Greg Mottola", "Michael Cera, Jonah Hill", "1h 53m"],
+            ["Get Out", 2017, "Horror", 86, 7.8, 98, 50000, "Jordan Peele", "Daniel Kaluuya, Allison Williams", "1h 44m"],
+            ["A Quiet Place", 2018, "Horror", 83, 7.5, 96, 25000, "John Krasinski", "Emily Blunt, John Krasinski", "1h 30m"],
+            ["The Conjuring", 2013, "Horror", 83, 7.5, 86, 100000, "James Wan", "Patrick Wilson, Vera Farmiga", "1h 52m"],
+            ["28 Days Later", 2002, "Horror", 85, 7.5, 87, 250000, "Danny Boyle", "Cillian Murphy, Naomie Harris", "1h 53m"],
+            ["Scream", 1996, "Horror", 80, 7.4, 81, 250000, "Wes Craven", "Neve Campbell, Courteney Cox", "1h 51m"],
+            ["A Nightmare on Elm Street", 1984, "Horror", 84, 7.4, 95, 250000, "Wes Craven", "Heather Langenkamp, Robert Englund", "1h 31m"],
+            ["Anora", 2024, "Rom-Com", 88, 7.6, 93, 5000, "Sean Baker", "Mikey Madison, Mark Eydelshteyn", "2h 19m"],
+            ["Palm Springs", 2020, "Rom-Com", 89, 7.4, 94, 5000, "Max Barbakow", "Andy Samberg, Cristin Milioti", "1h 30m"],
+            ["The Big Sick", 2017, "Rom-Com", 88, 7.5, 98, 25000, "Michael Showalter", "Kumail Nanjiani, Zoe Kazan", "2h 00m"],
+            ["Silver Linings Playbook", 2012, "Rom-Com", 86, 7.7, 92, 100000, "David O. Russell", "Bradley Cooper, Jennifer Lawrence", "2h 02m"],
+            ["500 Days of Summer", 2009, "Rom-Com", 84, 7.7, 85, 250000, "Marc Webb", "Joseph Gordon-Levitt, Zooey Deschanel", "1h 35m"],
+            ["The Notebook", 2004, "Rom-Com", 85, 7.8, 54, 250000, "Nick Cassavetes", "Ryan Gosling, Rachel McAdams", "2h 03m"],
+            ["About Time", 2013, "Rom-Com", 81, 7.8, 71, 50000, "Richard Curtis", "Domhnall Gleeson, Rachel McAdams", "2h 03m"],
+            ["Notting Hill", 1999, "Rom-Com", 79, 7.2, 84, 250000, "Roger Michell", "Julia Roberts, Hugh Grant", "2h 04m"],
+            ["Crazy Rich Asians", 2018, "Rom-Com", 76, 6.9, 91, 25000, "Jon M. Chu", "Constance Wu, Henry Golding", "2h 00m"],
+            ["Anyone But You", 2023, "Rom-Com", 87, 6.1, 53, 5000, "Will Gluck", "Sydney Sweeney, Glen Powell", "1h 43m"],
+            ["10 Things I Hate About You", 1999, "Rom-Com", 69, 7.3, 71, 250000, "Gil Junger", "Heath Ledger, Julia Stiles", "1h 37m"],
+            ["Forgetting Sarah Marshall", 2008, "Rom-Com", 76, 7.1, 83, 250000, "Nicholas Stoller", "Jason Segel, Kristen Bell", "1h 51m"],
+            ["The Proposal", 2009, "Rom-Com", 74, 6.8, 45, 250000, "Anne Fletcher", "Sandra Bullock, Ryan Reynolds", "1h 48m"],
+            ["Always Be My Maybe", 2019, "Rom-Com", 74, 6.8, 89, 5000, "Nahnatchka Khan", "Ali Wong, Randall Park", "1h 42m"],
+            ["Set It Up", 2018, "Rom-Com", 69, 6.5, 92, 2500, "Claire Scanlon", "Zoey Deutch, Glen Powell", "1h 45m"],
+            ["Dirty Dancing", 1987, "Rom-Com", 90, 7.1, 71, 250000, "Emile Ardolino", "Patrick Swayze, Jennifer Grey", "1h 40m"],
+            ["Say Anything...", 1989, "Rom-Com", 85, 7.3, 98, 100000, "Cameron Crowe", "John Cusack, Ione Skye", "1h 40m"],
+            ["Sixteen Candles", 1984, "Rom-Com", 85, 7.0, 82, 250000, "John Hughes", "Molly Ringwald, Anthony Michael Hall", "1h 33m"],
+            // 2024–2026 Popular & Recent Releases
+            ["Dune: Part Three", 2026, "Sci-Fi", 94, 8.5, 92, 5000, "Denis Villeneuve", "Timothée Chalamet, Zendaya", "2h 40m"],
+            ["The Odyssey", 2026, "Action", 92, 8.4, 91, 5000, "Christopher Nolan", "Matt Damon, Tom Holland", "2h 45m"],
+            ["Project Hail Mary", 2026, "Sci-Fi", 93, 8.1, 90, 10000, "Phil Lord, Christopher Miller", "Ryan Gosling, Sandra Hüller", "2h 26m"],
+            ["Sinners", 2025, "Horror", 96, 7.8, 97, 25000, "Ryan Coogler", "Michael B. Jordan, Hailee Steinfeld", "2h 17m"],
+            ["Zootopia 2", 2025, "Animation", 93, 7.9, 92, 10000, "Jared Bush", "Ginnifer Goodwin, Jason Bateman", "1h 48m"],
+            ["How to Train Your Dragon", 2025, "Action", 94, 7.9, 78, 10000, "Dean DeBlois", "Mason Thames, Nico Parker", "2h 05m"],
+            ["Peaky Blinders: The Immortal Man", 2026, "Drama", 91, 8.1, 87, 5000, "Tom Harper", "Cillian Murphy, Rebecca Ferguson", "2h 08m"],
+            ["Avengers: Doomsday", 2026, "Action", 90, 8.0, 84, 10000, "Anthony Russo, Joe Russo", "Robert Downey Jr., Pedro Pascal", "2h 35m"],
+            ["Spider-Man: Brand New Day", 2026, "Action", 91, 7.9, 86, 10000, "Destin Daniel Cretton", "Tom Holland, Zendaya", "2h 18m"],
+            ["Marty Supreme", 2025, "Drama", 89, 8.0, 95, 10000, "Josh Safdie", "Timothée Chalamet, Gwyneth Paltrow", "2h 29m"],
+            ["Wake Up Dead Man", 2025, "Thriller", 91, 7.8, 94, 10000, "Rian Johnson", "Daniel Craig, Josh O'Connor", "2h 20m"],
+            ["F1", 2025, "Action", 92, 7.7, 83, 25000, "Joseph Kosinski", "Brad Pitt, Damson Idris", "2h 35m"],
+            ["Wicked: For Good", 2025, "Drama", 93, 7.6, 86, 25000, "Jon M. Chu", "Cynthia Erivo, Ariana Grande", "2h 28m"],
+            ["One Battle After Another", 2025, "Thriller", 88, 8.1, 95, 10000, "Paul Thomas Anderson", "Leonardo DiCaprio, Sean Penn", "2h 42m"],
+            ["Thunderbolts*", 2025, "Action", 94, 7.4, 88, 10000, "Jake Schreier", "Florence Pugh, Sebastian Stan", "2h 06m"],
+            ["Toy Story 5", 2026, "Animation", 89, 7.8, 91, 5000, "Andrew Stanton", "Tom Hanks, Tim Allen", "1h 40m"],
+            ["Avatar: Fire and Ash", 2025, "Sci-Fi", 89, 7.8, 81, 25000, "James Cameron", "Sam Worthington, Zoe Saldana", "3h 12m"],
+            ["Superman", 2025, "Action", 91, 7.5, 84, 25000, "James Gunn", "David Corenswet, Rachel Brosnahan", "2h 09m"],
+            ["The Super Mario Galaxy Movie", 2026, "Animation", 94, 7.3, 72, 10000, "Aaron Horvath", "Chris Pratt, Anya Taylor-Joy", "1h 40m"],
+            ["Disclosure Day", 2026, "Sci-Fi", 90, 7.7, 89, 5000, "Steven Spielberg", "Emily Blunt, Josh O'Connor", "2h 15m"],
+            ["The Hunger Games: Sunrise on the Reaping", 2026, "Sci-Fi", 92, 7.6, 88, 5000, "Francis Lawrence", "Joseph Zada, Whitney Peak", "2h 20m"],
+            ["Mission: Impossible – The Final Reckoning", 2025, "Action", 88, 7.6, 80, 25000, "Christopher McQuarrie", "Tom Cruise, Hayley Atwell", "2h 49m"],
+            ["The Mandalorian and Grogu", 2026, "Sci-Fi", 88, 7.6, 82, 5000, "Jon Favreau", "Pedro Pascal, Sigourney Weaver", "2h 05m"],
+            ["Weapons", 2025, "Horror", 87, 7.6, 94, 10000, "Zach Cregger", "Josh Brolin, Julia Garner", "2h 08m"],
+            ["Frankenstein", 2025, "Horror", 86, 7.7, 85, 10000, "Guillermo del Toro", "Oscar Isaac, Jacob Elordi", "2h 29m"],
+            ["The Fantastic Four: First Steps", 2025, "Sci-Fi", 90, 7.3, 87, 25000, "Matt Shakman", "Pedro Pascal, Vanessa Kirby", "2h 05m"],
+            ["The Running Man", 2025, "Sci-Fi", 87, 7.3, 85, 10000, "Edgar Wright", "Glen Powell, Josh Brolin", "2h 13m"],
+            ["Predator: Badlands", 2025, "Sci-Fi", 89, 7.4, 88, 10000, "Dan Trachtenberg", "Elle Fanning", "1h 47m"],
+            ["The Drama", 2026, "Rom-Com", 85, 7.4, 88, 2500, "Kristoffer Borgli", "Zendaya, Robert Pattinson", "1h 52m"],
+            ["The Devil Wears Prada 2", 2026, "Comedy", 88, 7.2, 83, 5000, "David Frankel", "Meryl Streep, Anne Hathaway", "1h 58m"],
+            ["Furiosa: A Mad Max Saga", 2024, "Action", 89, 7.5, 90, 10000, "George Miller", "Anya Taylor-Joy, Chris Hemsworth", "2h 28m"],
+            ["Alien: Romulus", 2024, "Horror", 85, 7.1, 80, 10000, "Fede Alvarez", "Cailee Spaeny, David Jonsson", "1h 59m"],
+            ["Conclave", 2024, "Thriller", 86, 7.4, 93, 5000, "Edward Berger", "Ralph Fiennes, Stanley Tucci", "2h 00m"],
+            ["Twisters", 2024, "Action", 91, 6.5, 75, 25000, "Lee Isaac Chung", "Daisy Edgar-Jones, Glen Powell", "2h 02m"],
+            ["The Fall Guy", 2024, "Rom-Com", 87, 6.9, 81, 10000, "David Leitch", "Ryan Gosling, Emily Blunt", "2h 06m"],
+            ["The Greatest Showman", 2017, "Drama", 86, 7.5, 56, 25000, "Michael Gracey", "Hugh Jackman, Zac Efron", "1h 45m"],
+            ["Venom", 2018, "Action", 80, 6.6, 30, 25000, "Ruben Fleischer", "Tom Hardy, Michelle Williams", "1h 52m"],
+            ["Bullet Train", 2022, "Action", 76, 7.3, 54, 10000, "David Leitch", "Brad Pitt, Joey King", "2h 07m"],
+            ["Ready or Not", 2019, "Horror", 78, 6.9, 89, 10000, "Matt Bettinelli-Olpin", "Samara Weaving, Adam Brody", "1h 35m"],
+            ["The Cabin in the Woods", 2012, "Horror", 74, 7.0, 92, 100000, "Drew Goddard", "Kristen Connolly, Chris Hemsworth", "1h 35m"],
+            ["Tucker & Dale vs. Evil", 2010, "Horror", 85, 7.5, 85, 25000, "Eli Craig", "Tyler Labine, Alan Tudyk", "1h 29m"],
+            // Niche / Low-Review Titles (Demonstrating the 500+ Reviews Filter)
+            ["Midnight Indie Short Anthology", 2024, "Drama", 96, 8.4, 94, 140, "Alex Rivera", "Indie Ensemble", "1h 32m"],
+            ["Festival Cut: Neon Harbor", 2025, "Thriller", 92, 8.1, 91, 280, "Maya Lin", "Festival Cast", "1h 45m"],
+            ["One Cut of the Dead (Limited Run)", 2017, "Horror", 94, 7.6, 100, 420, "Shin'ichirô Ueda", "Takayuki Hamatsu", "1h 36m"],
+            ["Joker: Folie à Deux", 2024, "Drama", 32, 5.2, 31, 10000, "Todd Phillips", "Joaquin Phoenix, Lady Gaga", "2h 18m"],
+            ["The Last Airbender", 2010, "Action", 30, 4.0, 5, 100000, "M. Night Shyamalan", "Noah Ringer, Nicola Peltz", "1h 43m"]
+        ];
+
+        const TRACKED_NEW_RELEASES = [
+            { title: "Project Hail Mary", year: 2026 },
+            { title: "The Odyssey", year: 2026 },
+            { title: "Avengers: Doomsday", year: 2026 },
+            { title: "Dune: Part Three", year: 2026 },
+            { title: "Sinners", year: 2025 },
+            { title: "Superman", year: 2025 },
+            { title: "Thunderbolts*", year: 2025 },
+            { title: "The Fantastic Four: First Steps", year: 2025 },
+            { title: "Zootopia 2", year: 2025 },
+            { title: "Wicked: For Good", year: 2025 },
+            { title: "Wake Up Dead Man", year: 2025 },
+            { title: "Marty Supreme", year: 2025 },
+            { title: "F1", year: 2025 },
+            { title: "Weapons", year: 2025 },
+            { title: "One Battle After Another", year: 2025 },
+            { title: "Frankenstein", year: 2025 }
+        ];
+
+        const COLLECTIONS = [
+            { id: 'All', label: 'All Eras' },
+            { id: 'Popular', label: 'Top Popular' },
+            { id: '1980s', label: '1980s' },
+            { id: '1990s', label: '1990s' },
+            { id: '2000s', label: '2000s' },
+            { id: '2024-2026', label: '2024–2026 Releases' },
+            { id: 'External JSON', label: 'External JSON' }
+        ];
+
+        const GENRES = ['All', 'Action', 'Sci-Fi', 'Comedy', 'Rom-Com', 'Drama', 'Thriller', 'Horror', 'Animation'];
+
+        // =========================================================================
+        // 3. STATE MANAGEMENT & CATALOG BUILDER
+        // =========================================================================
+        let movies = [];
+        let watchlist = [];
+        let omdbCache = {};
+        let omdbConfig = { apiKey: DEFAULT_OMDB_KEY, autoSync: true };
+        let isBatchRunning = false;
+        const inFlightKeys = new Set();
+        let observer = null;
+        let externalJsonLoadedCount = 0;
+// ... existing code ... -->
+        function buildInitialMovies() {
+            return SEED_CATALOG.map((row, idx) => {
+                const [title, year, genre, popcorn, imdbRating, tomato, reviews, director, castStr, runtime] = row;
+                const imdbScore = Math.round(imdbRating * 10);
+                const palette = GENRE_COLORS[genre] || ['#1A73E8', '#202124'];
+                return {
+                    id: idx + 1,
+                    imdbId: '',
+                    title,
+                    year,
+                    genre,
+                    collections: getCollectionsForYear(year),
+                    popcorn: (typeof popcorn === 'number' && !Number.isNaN(popcorn)) ? popcorn : null,
+                    imdbRating,
+                    imdbScore,
+                    tomato,
+                    reviews,
+                    director,
+                    cast: castStr ? castStr.split(',').map(s => s.trim()) : [],
+                    runtime,
+                    synopsis: `${title} (${year}) — ${genre} feature directed by ${director} starring ${castStr}.`,
+                    posterGradient: `linear-gradient(135deg, ${palette[0]} 0%, ${palette[1]} 100%)`,
+                    posterUrl: '',
+                    omdbSyncedAt: 0,
+                    isExternalJson: false
+                };
+            });
+        }
+
+        function hasPopcorn(movie) {
+            return typeof movie.popcorn === 'number' && !Number.isNaN(movie.popcorn);
+        }
+
+        function getCacheKey(movieOrTitle, year) {
+            if (movieOrTitle && typeof movieOrTitle === 'object') {
+                if (movieOrTitle.imdbId) return String(movieOrTitle.imdbId).toLowerCase().trim();
+                return `${String(movieOrTitle.title).toLowerCase().trim()}|${movieOrTitle.year || ''}`;
+            }
+            return `${String(movieOrTitle).toLowerCase().trim()}|${year || ''}`;
+        }
+
+        function getAudienceAverage(movie) {
+            const popValid = hasPopcorn(movie);
+            const imdbValid = typeof movie.imdbScore === 'number' && !Number.isNaN(movie.imdbScore);
+            const tomValid = typeof movie.tomato === 'number' && !Number.isNaN(movie.tomato);
+            if (popValid && imdbValid) {
+                return Math.round(((movie.popcorn + movie.imdbScore) / 2) * 10) / 10;
+            }
+            if (imdbValid) return movie.imdbScore;
+            if (popValid) return movie.popcorn;
+            if (tomValid) return movie.tomato;
+            return 0;
+        }
+
+        function formatAvg(avg) {
+            return Number.isInteger(avg) ? `${avg}%` : `${avg.toFixed(1)}%`;
+        }
+// ... existing code ... -->
+        function initApp() {
+            try {
+                try {
+                    const savedCfg = JSON.parse(localStorage.getItem('popcornrank_omdb_cfg') || 'null');
+                    if (savedCfg && savedCfg.apiKey) omdbConfig.apiKey = savedCfg.apiKey;
+                } catch (e) {}
+
+                try {
+                    omdbCache = JSON.parse(localStorage.getItem('popcornrank_omdb_cache') || '{}') || {};
+                } catch (e) {}
+
+                try {
+                    watchlist = JSON.parse(localStorage.getItem('popcornrank_watchlist') || '[]') || [];
+                } catch (e) {}
+
+                movies = buildInitialMovies();
+
+                try {
+                    const custom = JSON.parse(localStorage.getItem('popcornrank_custom_movies') || '[]');
+                    if (Array.isArray(custom)) {
+                        custom.forEach(cm => {
+                            if (cm && cm.title && !movies.some(m => m.title.toLowerCase() === cm.title.toLowerCase())) {
+                                movies.unshift({
+                                    ...cm,
+                                    popcorn: (typeof cm.popcorn === 'number' && !Number.isNaN(cm.popcorn)) ? cm.popcorn : null
+                                });
+                            }
+                        });
+                    }
+                } catch (e) {}
+
+                movies = movies.map(m => {
+                    const hit = omdbCache[getCacheKey(m)] || omdbCache[getCacheKey(m.title, m.year)];
+                    return hit && hit.data ? applyOmdbPayload(m, hit.data, hit.ts) : m;
+                });
+
+                setupIntersectionObserver();
+                renderCollectionPills();
+                renderGenrePills();
+                updateWatchlistBadge();
+                updateReviewBadgeUI();
+                updateSyncStatusUI();
+                renderMovies();
+                bindEvents();
+
+                // Non-blocking external movies.json loader (safe on file:// or if absent)
+                loadExternalMoviesJson().finally(() => {
+                    if (omdbConfig.apiKey && omdbConfig.autoSync) {
+                        setTimeout(() => hydrateNextBatch(24, true), 400);
+                    }
+                });
+            } catch (err) {
+                console.error('PopcornRank init fallback:', err);
+                movies = buildInitialMovies();
+                renderCollectionPills();
+                renderGenrePills();
+                renderMovies();
+            }
+        }
+
+        async function loadExternalMoviesJson() {
+            try {
+                const res = await fetch('./movies.json', { cache: 'no-cache' });
+                if (!res || !res.ok) return;
+                const payload = await res.json();
+                const list = Array.isArray(payload) ? payload : (Array.isArray(payload.movies) ? payload.movies : []);
+                if (!list.length) return;
+
+                const byImdbId = new Map();
+                const byTitleYear = new Map();
+                movies.forEach((m, index) => {
+                    if (m.imdbId) byImdbId.set(String(m.imdbId).toLowerCase().trim(), index);
+                    byTitleYear.set(`${m.title.toLowerCase().trim()}|${m.year || ''}`, index);
+                });
+
+                let maxId = movies.reduce((acc, m) => Math.max(acc, Number(m.id) || 0), 0);
+                let addedOrMerged = 0;
+
+                list.forEach(raw => {
+                    if (!raw || !raw.title) return;
+                    const title = String(raw.title).trim();
+                    const year = parseInt(raw.year, 10) || 2024;
+                    const imdbId = raw.imdbId ? String(raw.imdbId).trim() : '';
+                    const genreRaw = raw.genre ? String(raw.genre).trim() : 'Drama';
+                    const genre = GENRES.includes(genreRaw) ? genreRaw : 'Drama';
+                    const palette = GENRE_COLORS[genre] || ['#1A73E8', '#202124'];
+
+                    const popVal = (raw.popcorn === null || raw.popcorn === undefined || raw.popcorn === '')
+                        ? null
+                        : (Number.isNaN(Number(raw.popcorn)) ? null : Math.min(100, Math.max(0, Math.round(Number(raw.popcorn)))));
+
+                    const rawImdbFloat = raw.imdbRaw != null ? Number(raw.imdbRaw) : (raw.imdbRating != null ? Number(raw.imdbRating) : null);
+                    const rawImdb10 = raw.imdb10 != null ? Number(raw.imdb10) : (raw.imdbScore != null ? Number(raw.imdbScore) : (rawImdbFloat != null && !Number.isNaN(rawImdbFloat) ? Math.round(rawImdbFloat * 10) : null));
+                    const imdbScore = (rawImdb10 != null && !Number.isNaN(rawImdb10)) ? Math.round(rawImdb10) : 75;
+                    const imdbRating = (rawImdbFloat != null && !Number.isNaN(rawImdbFloat)) ? rawImdbFloat : Math.round(imdbScore) / 10;
+
+                    const tomRaw = raw.tomatometer != null ? Number(raw.tomatometer) : (raw.tomato != null ? Number(raw.tomato) : imdbScore);
+                    const tomato = !Number.isNaN(tomRaw) ? Math.min(100, Math.max(0, Math.round(tomRaw))) : imdbScore;
+                    const reviews = parseInt(raw.reviews, 10) || 1000;
+
+                    const cols = Array.from(new Set([
+                        ...getCollectionsForYear(year),
+                        ...(Array.isArray(raw.collections) ? raw.collections : []),
+                        'External JSON'
+                    ]));
+
+                    const matchIdx = (imdbId && byImdbId.has(imdbId.toLowerCase()))
+                        ? byImdbId.get(imdbId.toLowerCase())
+                        : byTitleYear.get(`${title.toLowerCase()}|${year}`);
+
+                    if (matchIdx !== undefined) {
+                        const existing = movies[matchIdx];
+                        movies[matchIdx] = {
+                            ...existing,
+                            imdbId: imdbId || existing.imdbId,
+                            popcorn: popVal !== null ? popVal : existing.popcorn,
+                            imdbRating: rawImdbFloat != null ? imdbRating : existing.imdbRating,
+                            imdbScore: rawImdb10 != null ? imdbScore : existing.imdbScore,
+                            tomato: (raw.tomatometer != null || raw.tomato != null) ? tomato : existing.tomato,
+                            reviews: raw.reviews != null ? reviews : existing.reviews,
+                            runtime: raw.runtime || existing.runtime,
+                            director: raw.director || existing.director,
+                            cast: Array.isArray(raw.cast) && raw.cast.length ? raw.cast : existing.cast,
+                            synopsis: raw.synopsis || existing.synopsis,
+                            posterUrl: raw.posterUrl || existing.posterUrl,
+                            collections: Array.from(new Set([...(existing.collections || []), 'External JSON'])),
+                            isExternalJson: true
+                        };
+                        const hit = omdbCache[getCacheKey(movies[matchIdx])];
+                        if (hit && hit.data) movies[matchIdx] = applyOmdbPayload(movies[matchIdx], hit.data, hit.ts);
+                        addedOrMerged++;
+                    } else {
+                        maxId += 1;
+                        let newEntry = {
+                            id: maxId,
+                            imdbId,
+                            title,
+                            year,
+                            genre,
+                            collections: cols,
+                            popcorn: popVal,
+                            imdbRating,
+                            imdbScore,
+                            tomato,
+                            reviews,
+                            director: raw.director || 'Acclaimed Director',
+                            cast: Array.isArray(raw.cast) ? raw.cast : [],
+                            runtime: raw.runtime || '2h 00m',
+                            synopsis: raw.synopsis || `${title} (${year}) — ${genre} feature.`,
+                            posterGradient: raw.posterGradient || `linear-gradient(135deg, ${palette[0]} 0%, ${palette[1]} 100%)`,
+                            posterUrl: raw.posterUrl || '',
+                            omdbSyncedAt: 0,
+                            isExternalJson: true
+                        };
+                        const hit = omdbCache[getCacheKey(newEntry)];
+                        if (hit && hit.data) newEntry = applyOmdbPayload(newEntry, hit.data, hit.ts);
+                        const newIndex = movies.length;
+                        movies.push(newEntry);
+                        if (imdbId) byImdbId.set(imdbId.toLowerCase(), newIndex);
+                        byTitleYear.set(`${title.toLowerCase()}|${year}`, newIndex);
+                        addedOrMerged++;
+                    }
+                });
+
+                externalJsonLoadedCount = addedOrMerged;
+                renderCollectionPills();
+                updateSyncStatusUI();
+                renderMovies();
+                if (addedOrMerged > 0) {
+                    showToast(`Loaded ${addedOrMerged} movies from movies.json`);
+                }
+            } catch (err) {
+                // Silently ignore when opened over file:// or when movies.json is not present
+            }
+        }
+
+        // =========================================================================
+        // 5. FILTERING, SORTING & RENDERING
+        // =========================================================================
+        function getFilteredAndSortedMovies() {
+            const q = state.searchQuery.trim().toLowerCase();
+            let hiddenLowReviews = 0;
+
+            const filtered = movies.filter(m => {
+                if (state.watchlistOnly && !watchlist.includes(m.id)) return false;
+                if (state.selectedCollection !== 'All' && !(m.collections || []).includes(state.selectedCollection)) return false;
+                if (state.selectedGenre !== 'All' && m.genre !== state.selectedGenre) return false;
+                if (state.minPopcorn > 0 && (!hasPopcorn(m) || m.popcorn < state.minPopcorn)) return false;
+                if (m.imdbScore < state.minImdb) return false;
+                if (state.crowdPleaserOnly) {
+                    const effectivePop = hasPopcorn(m) ? m.popcorn : m.imdbScore;
+                    if (effectivePop <= m.tomato) return false;
+                }
+
+                if (q) {
+                    const hay = `${m.title} ${m.year} ${m.genre} ${m.director} ${m.imdbId || ''} ${(m.cast || []).join(' ')}`.toLowerCase();
+                    if (!hay.includes(q)) return false;
+                }
+
+                if (state.enforceMinReviews && state.minReviews > 0 && (m.reviews || 0) < state.minReviews) {
+                    hiddenLowReviews++;
+                    return false;
+                }
+                return true;
+            });
+
+            filtered.sort((a, b) => {
+                const avgA = getAudienceAverage(a);
+                const avgB = getAudienceAverage(b);
+                const popA = hasPopcorn(a) ? a.popcorn : -1;
+                const popB = hasPopcorn(b) ? b.popcorn : -1;
+                const effPopA = hasPopcorn(a) ? a.popcorn : a.imdbScore;
+                const effPopB = hasPopcorn(b) ? b.popcorn : b.imdbScore;
+
+                switch (state.sortBy) {
+                    case 'audience-avg-desc': return avgB - avgA || popB - popA || b.imdbScore - a.imdbScore;
+                    case 'audience-avg-asc': return avgA - avgB || popA - popB;
+                    case 'popcorn-desc': return popB - popA || avgB - avgA;
+                    case 'imdb-desc': return b.imdbScore - a.imdbScore || avgB - avgA;
+                    case 'tomato-desc': return b.tomato - a.tomato || avgB - avgA;
+                    case 'reviews-desc': return (b.reviews || 0) - (a.reviews || 0) || avgB - avgA;
+                    case 'gap-desc': return (effPopB - b.tomato) - (effPopA - a.tomato);
+                    case 'year-desc': return b.year - a.year || avgB - avgA;
+                    case 'year-asc': return a.year - b.year || avgB - avgA;
+                    case 'title-asc': return a.title.localeCompare(b.title);
+                    default: return avgB - avgA;
+                }
+            });
+
+            return { filtered, hiddenLowReviews };
+        }
+// ... existing code ... -->
+        function buildCardHTML(m, idx) {
+            const popValid = hasPopcorn(m);
+            const avg = getAudienceAverage(m);
+            const avgStr = formatAvg(avg);
+            const effectiveAudience = popValid ? m.popcorn : m.imdbScore;
+            const gap = effectiveAudience - m.tomato;
+            const saved = watchlist.includes(m.id);
+
+            const popColor = !popValid
+                ? 'text-google-subtext'
+                : m.popcorn >= 60 ? 'text-google-green' : 'text-google-red';
+            const popBg = !popValid
+                ? 'bg-google-hover/70 border-google-border'
+                : m.popcorn >= 90 ? 'bg-google-yellowLight/60 border-google-yellow/60' : m.popcorn >= 60 ? 'bg-google-greenLight/50 border-google-green/30' : 'bg-google-redLight/50 border-google-red/30';
+            const popIcon = !popValid ? '🍿' : m.popcorn >= 90 ? '🔥' : m.popcorn >= 60 ? '🍿' : '🥤';
+            const popDisplay = popValid ? `${m.popcorn}%` : 'N/A';
+            const popSubtext = popValid ? `${formatReviews(m.reviews)} votes` : 'No RT score';
+            const popBarWidth = popValid ? m.popcorn : 0;
+            const popBarColor = !popValid ? 'bg-slate-300' : m.popcorn >= 90 ? 'bg-google-yellow' : m.popcorn >= 60 ? 'bg-google-green' : 'bg-google-red';
+
+            const avgBg = avg >= 90 ? 'bg-google-blue text-white border-google-blue' : avg >= 75 ? 'bg-google-blueLight text-google-blue border-google-blue/35' : 'bg-google-hover text-google-text border-google-border';
+            const avgFormula = popValid ? `(${m.popcorn}+${m.imdbScore})` : 'IMDb (×10) Proxy';
+            const avgTooltip = popValid
+                ? `Combined Audience Average: (${m.popcorn}% Popcorn + ${m.imdbScore}% IMDb) ÷ 2`
+                : `IMDb (×10) Proxy: ${m.imdbScore}% (Popcornmeter N/A)`;
+            const tomIcon = m.tomato >= 60 ? '🍅' : '🤢';
+
+            const posterLayer = m.posterUrl
+                ? `<img src="${escapeAttr(m.posterUrl)}" alt="${escapeAttr(m.title)}" loading="lazy" onerror="this.remove()" class="absolute inset-0 w-full h-full object-cover">`
+                : '';
+
+            const rankPill = (state.sortBy === 'audience-avg-desc' && idx < 3 && !state.searchQuery && state.selectedGenre === 'All' && !state.watchlistOnly)
+                ? `<span class="absolute top-2.5 left-2.5 z-10 px-2.5 py-0.5 rounded-full bg-white/95 text-google-blue font-bold text-[11px] shadow-xs">#${idx + 1} Top Avg</span>`
+                : m.omdbSyncedAt
+                ? `<span class="absolute top-2.5 left-2.5 z-10 px-2 py-0.5 rounded-full bg-google-blue/90 text-white font-semibold text-[10px]">Live Synced</span>`
+                : '';
+
+            return `
+                <article data-movie-id="${m.id}" onclick="openMovieModal(${m.id})" class="movie-card bg-white border border-google-border rounded-2xl overflow-hidden flex flex-col justify-between cursor-pointer relative">
+                    <div class="relative h-40 w-full overflow-hidden" style="background: ${m.posterGradient}">
+                        ${posterLayer}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+                        ${rankPill}
+                        <button type="button" onclick="event.stopPropagation(); toggleWatchlist(${m.id})" title="${saved ? 'Remove from Watchlist' : 'Save to Watchlist'}" class="absolute top-2.5 right-2.5 z-10 w-8 h-8 rounded-full bg-white/95 hover:bg-white border border-google-border flex items-center justify-center text-sm shadow-xs cursor-pointer">
+                            ${saved ? '🔖' : '➕'}
+                        </button>
+                        <div class="absolute bottom-2.5 left-3.5 right-3.5">
+                            <div class="text-[11px] font-medium text-white/85 mb-0.5">${m.year} • ${m.runtime} • ${m.genre}</div>
+                            <h3 class="movie-tile-title font-bold text-white leading-tight" style="font-size: 17px;" title="${escapeAttr(m.title)}">${m.title}</h3>
+                        </div>
+                    </div>
+
+                    <div class="p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
+                        <!-- Combined Audience Average Hero Pill -->
+                        <div class="border ${avgBg} rounded-xl px-3 py-2 flex items-center justify-between gap-1.5" title="${avgTooltip}">
+                            <span class="text-[11px] font-bold uppercase tracking-wider shrink-0">🏆 Audience Avg</span>
+                            <span class="text-base font-extrabold text-right">${avgStr} <span class="text-[10px] font-medium opacity-80">${avgFormula}</span></span>
+                        </div>
+
+                        <!-- Popcornmeter & IMDb (x10) -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="border ${popBg} rounded-xl p-2 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between gap-1">
+                                        <div class="flex items-center gap-1">
+                                            <span class="text-base">${popIcon}</span>
+                                            <span class="text-base font-extrabold ${popColor}">${popDisplay}</span>
+                                        </div>
+                                        ${!popValid ? '<span class="px-1.5 py-0.5 rounded bg-white text-[9px] font-semibold text-google-subtext border border-google-border">N/A</span>' : ''}
+                                    </div>
+                                    <div class="text-[10px] font-bold uppercase text-google-text mt-0.5">Popcornmeter</div>
+                                    <div class="text-[10px] text-google-subtext">${popSubtext}</div>
+                                </div>
+                                <div class="w-full h-1.5 bg-black/10 rounded-full overflow-hidden mt-1.5">
+                                    <div class="h-full ${popBarColor} rounded-full" style="width: ${popBarWidth}%"></div>
+                                </div>
+                            </div>
+                            <div class="bg-google-yellowLight/45 border border-amber-300/70 rounded-xl p-2 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-[10px] font-black px-1 py-0.5 rounded bg-amber-400 text-slate-950">IMDb</span>
+                                        <span class="text-base font-extrabold text-amber-900">${m.imdbScore}%</span>
+                                    </div>
+                                    <div class="text-[10px] font-bold uppercase text-google-text mt-0.5">IMDb (×10)</div>
+                                    <div class="text-[10px] font-semibold text-amber-800">${Number(m.imdbRating).toFixed(1)} / 10 ★ • ${formatReviews(m.reviews)}</div>
+                                </div>
+                                <div class="w-full h-1.5 bg-amber-900/10 rounded-full overflow-hidden mt-1.5">
+                                    <div class="h-full bg-amber-500 rounded-full" style="width: ${m.imdbScore}%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tomatometer Row -->
+                        <div class="bg-google-bg border border-google-border/80 rounded-xl px-2.5 py-1.5 flex items-center justify-between text-xs">
+                            <span class="font-semibold text-google-text">${tomIcon} ${m.tomato}% <span class="text-[10px] text-google-subtext font-normal">Critics</span></span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold ${gap >= 10 ? 'bg-google-greenLight text-google-green' : 'bg-white text-google-subtext border border-google-border'}">
+                                ${gap >= 0 ? `+${gap}% Audience` : `${gap}% Critics`}
+                            </span>
+                        </div>
+
+                        <!-- Footer Metadata -->
+                        <div class="pt-1.5 border-t border-google-border/70 flex items-center justify-between text-[11px] text-google-subtext">
+                            <span class="px-2 py-0.5 rounded-full bg-google-hover font-medium text-google-text">${m.genre}</span>
+                            <span class="truncate max-w-[140px]">Dir. ${(m.director || '').split(',')[0]}</span>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+// ... existing code ... -->
+        async function openMovieModal(id) {
+            let m = movies.find(item => item.id === id);
+            if (!m) return;
+            if (omdbConfig.apiKey && !m.omdbSyncedAt) {
+                await hydrateSingleMovie(id);
+                m = movies.find(item => item.id === id) || m;
+            }
+            const popValid = hasPopcorn(m);
+            const avg = formatAvg(getAudienceAverage(m));
+            const avgSubtitle = popValid ? `(${m.popcorn}+${m.imdbScore}) ÷ 2` : 'IMDb (×10) Proxy';
+            const popModalText = popValid ? `🍿 ${m.popcorn}%` : '🍿 N/A';
+            const popModalColor = !popValid ? 'text-google-subtext' : m.popcorn >= 60 ? 'text-google-green' : 'text-google-red';
+            const popModalSub = popValid ? `${formatReviews(m.reviews)} votes` : 'No RT audience score';
+            const saved = watchlist.includes(m.id);
+            const modal = document.getElementById('movieModal');
+            const content = document.getElementById('movieModalContent');
+            if (!modal || !content) return;
+
+            const posterLayer = m.posterUrl ? `<img src="${escapeAttr(m.posterUrl)}" alt="${escapeAttr(m.title)}" class="absolute inset-0 w-full h-full object-cover">` : '';
+
+            content.innerHTML = `
+                <div class="relative h-52 w-full overflow-hidden" style="background: ${m.posterGradient}">
+                    ${posterLayer}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent"></div>
+                    <div class="absolute bottom-4 left-6 right-6">
+                        <div class="text-xs font-semibold text-white/90 mb-1">${m.year} • ${m.runtime} • ${m.genre}</div>
+                        <h2 class="font-extrabold text-2xl text-white">${m.title}</h2>
+                    </div>
+                </div>
+                <div class="p-6 space-y-5">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="bg-google-blueLight/60 border border-google-blue/35 rounded-xl p-3">
+                            <div class="text-xl font-extrabold text-google-blue">🏆 ${avg}</div>
+                            <div class="text-[10px] font-bold uppercase text-google-text mt-0.5">Audience Avg</div>
+                            <div class="text-[10px] text-google-subtext">${avgSubtitle}</div>
+                        </div>
+                        <div class="bg-google-bg border border-google-border rounded-xl p-3">
+                            <div class="text-xl font-extrabold ${popModalColor}">${popModalText}</div>
+                            <div class="text-[10px] font-bold uppercase text-google-text mt-0.5">Popcornmeter</div>
+                            <div class="text-[10px] text-google-subtext">${popModalSub}</div>
+                        </div>
+                        <div class="bg-google-yellowLight/45 border border-amber-300/70 rounded-xl p-3">
+                            <div class="text-xl font-extrabold text-amber-900">⭐ ${m.imdbScore}%</div>
+                            <div class="text-[10px] font-bold uppercase text-google-text mt-0.5">IMDb (×10)</div>
+                            <div class="text-[10px] text-amber-800">${Number(m.imdbRating).toFixed(1)} / 10 ★</div>
+                        </div>
+                        <div class="bg-google-bg border border-google-border rounded-xl p-3">
+                            <div class="text-xl font-extrabold text-google-text">🍅 ${m.tomato}%</div>
+                            <div class="text-[10px] font-bold uppercase text-google-text mt-0.5">Tomatometer</div>
+                            <div class="text-[10px] text-google-subtext">Critic Score</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-google-subtext mb-1">Synopsis</h4>
+                        <p class="text-sm text-google-text leading-relaxed">${m.synopsis}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-sm pt-3 border-t border-google-border">
+                        <div><span class="block text-xs font-bold uppercase text-google-subtext">Director</span><strong>${m.director}</strong></div>
+                        <div><span class="block text-xs font-bold uppercase text-google-subtext">Cast</span><span>${(m.cast || []).join(', ') || 'Ensemble'}</span></div>
+                    </div>
+                    <div class="flex gap-3 pt-3 border-t border-google-border">
+                        <button type="button" onclick="toggleWatchlist(${m.id}); openMovieModal(${m.id});" class="flex-1 py-2.5 rounded-full text-sm font-semibold bg-google-blue text-white hover:bg-google-blueHover cursor-pointer">
+                            ${saved ? '🔖 Saved in Watchlist' : '+ Add to Watchlist'}
+                        </button>
+                        <button type="button" onclick="closeMovieModal()" class="px-5 py-2.5 rounded-full text-sm font-medium bg-google-hover text-google-text cursor-pointer">Close</button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeMovieModal() { const m = document.getElementById('movieModal'); if (m) { m.classList.add('hidden'); m.classList.remove('flex'); } }
+        function openAddMovieModal() { const m = document.getElementById('addMovieModal'); if (m) { m.classList.remove('hidden'); m.classList.add('flex'); } }
+        function closeAddMovieModal() { const m = document.getElementById('addMovieModal'); if (m) { m.classList.add('hidden'); m.classList.remove('flex'); } }
+
+        function handleAddMovieSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('newTitle').value.trim();
+            const popRaw = document.getElementById('newPopcorn').value.trim();
+            const popcorn = popRaw === '' ? null : Math.min(100, Math.max(0, parseInt(popRaw, 10)));
+            const imdbRating = parseFloat(document.getElementById('newImdb').value) || 8.0;
+            const imdbScore = Math.round(imdbRating * 10);
+            const tomato = Math.min(100, Math.max(0, parseInt(document.getElementById('newTomato').value, 10)));
+            const reviews = Math.max(1, parseInt(document.getElementById('newReviews').value, 10) || 1000);
+            const year = parseInt(document.getElementById('newYear').value, 10) || 2026;
+            const genre = document.getElementById('newGenre').value;
+            const runtime = document.getElementById('newRuntime').value.trim() || '2h 00m';
+            const director = document.getElementById('newDirector').value.trim() || 'Acclaimed Director';
+            const castStr = document.getElementById('newCast').value.trim();
+            const synopsis = document.getElementById('newSynopsis').value.trim() || `${title} (${year})`;
+            const palette = GENRE_COLORS[genre] || ['#1A73E8', '#202124'];
+
+            const newMovie = {
+                id: Date.now(), imdbId: '', title, year, genre,
+                collections: getCollectionsForYear(year),
+                popcorn, imdbRating, imdbScore, tomato, reviews,
+                director, cast: castStr ? castStr.split(',').map(s => s.trim()) : [],
+                runtime, synopsis,
+                posterGradient: `linear-gradient(135deg, ${palette[0]} 0%, ${palette[1]} 100%)`,
+                posterUrl: '', omdbSyncedAt: 0, isCustom: true
+            };
+            movies.unshift(newMovie);
+            try {
+                const customOnly = movies.filter(item => item.isCustom);
+                localStorage.setItem('popcornrank_custom_movies', JSON.stringify(customOnly));
+            } catch (err) {}
+            e.target.reset();
+            closeAddMovieModal();
+            renderCollectionPills();
+            renderMovies();
+            showToast(`Added "${title}" to PopcornRank!`);
+        }
+// ... existing code ... -->
+        function applyOmdbPayload(movie, data, ts = Date.now()) {
+            const imdbFloat = parseFloat(data.imdbRating);
+            const imdbRating = !Number.isNaN(imdbFloat) ? imdbFloat : movie.imdbRating;
+            const imdbScore = !Number.isNaN(imdbFloat) ? Math.round(imdbFloat * 10) : movie.imdbScore;
+
+            let tomato = movie.tomato;
+            if (Array.isArray(data.Ratings)) {
+                const rt = data.Ratings.find(r => r.Source === 'Rotten Tomatoes');
+                if (rt && rt.Value) {
+                    const parsed = parseInt(rt.Value.replace('%', ''), 10);
+                    if (!Number.isNaN(parsed)) tomato = parsed;
+                }
+            }
+
+            const votes = data.imdbVotes && data.imdbVotes !== 'N/A' ? parseInt(data.imdbVotes.replace(/,/g, ''), 10) : 0;
+            const reviews = votes > 0 ? votes : movie.reviews;
+            const posterUrl = (data.Poster && data.Poster !== 'N/A' && data.Poster.startsWith('http')) ? data.Poster : movie.posterUrl;
+
+            return {
+                ...movie,
+                imdbId: (data.imdbID && data.imdbID !== 'N/A') ? data.imdbID : (movie.imdbId || ''),
+                imdbRating,
+                imdbScore,
+                tomato,
+                reviews,
+                posterUrl,
+                director: (data.Director && data.Director !== 'N/A') ? data.Director : movie.director,
+                cast: (data.Actors && data.Actors !== 'N/A') ? data.Actors.split(',').map(s => s.trim()) : movie.cast,
+                synopsis: (data.Plot && data.Plot !== 'N/A') ? data.Plot : movie.synopsis,
+                omdbSyncedAt: ts
+            };
+        }
+
+        async function fetchOmdbTitle(query, year = '') {
+            const trimmed = String(query || '').trim();
+            const isId = /^tt\d+$/i.test(trimmed);
+            const p = isId ? `i=${encodeURIComponent(trimmed)}` : `t=${encodeURIComponent(trimmed)}`;
+            const y = (!isId && year) ? `&y=${encodeURIComponent(year)}` : '';
+            const res = await fetch(`https://www.omdbapi.com/?apikey=${encodeURIComponent(omdbConfig.apiKey)}&${p}${y}&type=movie`);
+            return await res.json();
+        }
+
+        async function hydrateSingleMovie(id) {
+            if (!omdbConfig.apiKey) return false;
+            const idx = movies.findIndex(m => m.id === id);
+            if (idx === -1) return false;
+            const m = movies[idx];
+            if (m.omdbSyncedAt && (Date.now() - m.omdbSyncedAt) < CACHE_TTL_MS) return false;
+
+            const key = getCacheKey(m);
+            if (inFlightKeys.has(key)) return false;
+            inFlightKeys.add(key);
+
+            try {
+                const lookupQuery = m.imdbId ? m.imdbId : m.title;
+                const data = await fetchOmdbTitle(lookupQuery, m.year);
+                if (data && data.Response === 'True') {
+                    const now = Date.now();
+                    omdbCache[key] = { data, ts: now };
+                    try { localStorage.setItem('popcornrank_omdb_cache', JSON.stringify(omdbCache)); } catch (e) {}
+                    movies[idx] = applyOmdbPayload(movies[idx], data, now);
+                    updateSyncStatusUI();
+
+                    const card = document.querySelector(`#moviesGrid article[data-movie-id="${id}"]`);
+                    if (card) {
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = buildCardHTML(movies[idx], 99).trim();
+                        if (tmp.firstElementChild) {
+                            card.replaceWith(tmp.firstElementChild);
+                            fitMovieTileTitles();
+                        }
+                    }
+                    return true;
+                }
+            } catch (e) {} finally {
+                inFlightKeys.delete(key);
+            }
+            return false;
+        }
+// ... existing code ... -->
+                lastFetchedMovie = {
+                    id: Date.now(),
+                    imdbId: data.imdbID || '',
+                    title: data.Title,
+                    year,
+                    genre,
+                    collections: getCollectionsForYear(year),
+                    popcorn: null,
+                    imdbRating: imdbFloat,
+                    imdbScore,
+                    tomato,
+                    reviews: votes || 1500,
+                    director: data.Director || 'Acclaimed Director',
+                    cast: data.Actors ? data.Actors.split(',').map(s => s.trim()) : [],
+                    runtime: data.Runtime || '2h 00m',
+                    synopsis: data.Plot || `${data.Title} (${year})`,
+                    posterGradient: `linear-gradient(135deg, ${palette[0]} 0%, ${palette[1]} 100%)`,
+                    posterUrl: (data.Poster && data.Poster !== 'N/A') ? data.Poster : '',
+                    omdbSyncedAt: Date.now(),
+                    isCustom: true
+                };
+
+                box.innerHTML = `
+                    <div class="p-3.5 rounded-xl bg-google-blueLight/40 border border-google-blue/30 flex items-center justify-between gap-3">
+                        <div class="text-xs space-y-1">
+                            <div class="font-bold text-sm text-google-text">${lastFetchedMovie.title} (${lastFetchedMovie.year})</div>
+                            <div class="text-google-subtext">IMDb ×10: <strong>${imdbScore}%</strong> • Popcorn: <strong>N/A</strong> • Critics: <strong>${tomato}%</strong> • ${formatReviews(votes)} votes</div>
+                        </div>
+                        <button type="button" onclick="importLastFetchedMovie()" class="px-4 py-2 rounded-full text-xs font-semibold bg-google-blue text-white hover:bg-google-blueHover cursor-pointer shrink-0">+ Add to Catalog</button>
+                    </div>
+                `;
+// ... existing code ... -->
+```
