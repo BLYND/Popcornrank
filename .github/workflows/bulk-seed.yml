@@ -1,0 +1,49 @@
+name: One-Time Bulk Catalog Seed (IMDb + RT)
+
+on:
+  workflow_dispatch:
+    inputs:
+      min_votes:
+        description: 'Minimum IMDb vote count (15000 = ~3,000 movies)'
+        required: false
+        default: '15000'
+      max_new_movies:
+        description: 'Maximum new movies to add'
+        required: false
+        default: '3000'
+
+permissions:
+  contents: write
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run bulk seed script
+        env:
+          MIN_VOTES: ${{ github.event.inputs.min_votes || '15000' }}
+          MAX_NEW_MOVIES: ${{ github.event.inputs.max_new_movies || '3000' }}
+        run: node scripts/seed-imdb-bulk.mjs
+
+      - name: Commit and push seeded movies.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git reset --soft origin/main
+          git add movies.json
+          if git diff --staged --quiet; then
+            echo "No changes to movies.json"
+          else
+            git commit -m "chore(catalog): bulk seed movies.json [skip ci]"
+            git push origin HEAD:main
+          fi
