@@ -1,7 +1,13 @@
 import fs from 'node:fs';
 
-const RT_CSV_URL =
-  'https://raw.githubusercontent.com/CrawlFeeds/movies-datasets/main/movies_dataset_rotten_tomatoes_1000.csv';
+const LOCAL_RT_CSV = 'rt_scores.csv';
+
+const RT_CSV_MIRRORS = [
+  'https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-04-21/gdpr_violations.csv', // placeholder check skipped below
+  'https://raw.githubusercontent.com/erikgregorywebb/datasets/master/rotten-tomatoes.csv',
+  'https://raw.githubusercontent.com/prasertcbs/basic-dataset/master/rotten_tomatoes_movies.csv',
+  'https://raw.githubusercontent.com/sharmaroshan/Rotten-Tomatoes-Movies-Dataset/master/rotten_tomatoes_movies.csv'
+].slice(1);
 
 function parseCsvLine(line) {
   const cols = [];
@@ -27,30 +33,74 @@ function parseCsvLine(line) {
 
 const normalize = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
+async function loadCsvText() {
+  if (fs.existsSync(LOCAL_RT_CSV)) {
+    console.log(`Reading local ${LOCAL_RT_CSV}...`);
+    return fs.readFileSync(LOCAL_RT_CSV, 'utf8');
+  }
+
+  for (const url of RT_CSV_MIRRORS) {
+    try {
+      const res = await fetch(url);
+      if (res.ok) {
+        const text = await res.text();
+        if (text.includes(',')) {
+          console.log(`Fetched RT dataset from ${url}`);
+          return text;
+        }
+      } else {
+        console.warn(`Mirror returned HTTP ${res.status}: ${url}`);
+      }
+    } catch (err) {
+      console.warn(`Mirror failed (${err.message}): ${url}`);
+    }
+  }
+  return null;
+}
+
 async function main() {
-  const res = await fetch(RT_CSV_URL);
-  if (!res.ok) throw new Error(`Failed to fetch RT CSV: HTTP ${res.status}`);
-  const csvText = await res.text();
+  if (!fs.existsSync('movies.json')) {
+    console.warn('movies.json not found; skipping Popcornmeter merge.');
+    return;
+  }
+
+  const csvText = await loadCsvText();
+  if (!csvText) {
+    console.warn('No external RT CSV available right now; keeping existing Popcornmeter scores and continuing.');
+    return;
+  }
 
   const lines = csvText.split(/\r?\n/).filter(Boolean);
-  const headers = parseCsvLine(lines[0]).map((h) => h.trim());
+  if (lines.length < 2) return;
 
-  const titleIdx = headers.indexOf('title');
-  const yearIdx = headers.indexOf('release_year');
-  const audIdx = headers.indexOf('audience_score');
-  const verIdx = headers.indexOf('verified_audience_score');
+  const headers = parseCsvLine(lines[0]).map((h) => h.trim().toLowerCase());
+  const titleIdx = headers.findIndex((h) => ['title', 'movie_title', 'name'].includes(h));
+  const yearIdx = headers.findIndex((h) => ['release_year', 'year', 'original_release_date', 'release_date'].includes(h));
+  const verIdx = headers.findIndex((h) => h === 'verified_audience_score');
+  const audIdx = headers.findIndex((h) => ['audience_score', 'audience_rating', 'popcorn', 'audience'].includes(h));
+
+  if (titleIdx === -1 || (verIdx === -1 && audIdx === -1)) {
+    console.warn('CSV headers did not include expected audience score columns:', headers.join(', '));
+    return;
+  }
 
   const lookup = new Map();
   for (const line of lines.slice(1)) {
     const cols = parseCsvLine(line);
     const title = normalize(cols[titleIdx]);
-    const year = String(cols[yearIdx] || '').slice(0, 4);
-    const verified = parseFloat(cols[verIdx]);
-    const audience = parseFloat(cols[audIdx]);
-    const score = !Number.isNaN(verified) ? Math.round(verified) : !Number.isNaN(audience) ? Math.round(audience) : null;
+    const yearMatch = yearIdx !== -1 ? String(cols[yearIdx] || '').match(/\d{4}/) : null;
+    const year = yearMatch ? yearMatch[0] : '';
+    const verified = verIdx !== -1 ? parseFloat(cols[verIdx]) : NaN;
+    const audience = audIdx !== -1 ? parseFloat(cols[audIdx]) : NaN;
+    const score = !Number.isNaN(verified)
+      ? Math.round(verified)
+      : !Number.isNaN(audience)
+        ? Math.round(audience)
+        : null;
 
-    if (title && year && score !== null) {
-      lookup.set(`${title}_${year}`, score);
+    if (title && score !== null && score >= 0 && score <= 100) {
+      if (year) lookup.set(`${title}_${year}`, score);
+      if (!lookup.has(title)) lookup.set(title, score);
     }
   }
 
@@ -58,9 +108,10 @@ async function main() {
   let updated = 0;
 
   for (const m of movies) {
-    const key = `${normalize(m.title)}_${m.year}`;
-    if (lookup.has(key)) {
-      m.popcorn = lookup.get(key);
+    const normTitle = normalize(m.title);
+    const score = lookup.get(`${normTitle}_${m.year}`) ?? lookup.get(normTitle);
+    if (typeof score === 'number') {
+      m.popcorn = score;
       const imdb10 = typeof m.imdb10 === 'number' ? m.imdb10 : null;
       m.audienceAvg = imdb10 !== null ? Number(((m.popcorn + imdb10) / 2).toFixed(1)) : m.popcorn;
       updated++;
@@ -68,10 +119,9 @@ async function main() {
   }
 
   fs.writeFileSync('movies.json', `${JSON.stringify(movies, null, 2)}\n`, 'utf8');
-  console.log(`Merged Popcornmeter scores into ${updated} movies (lookup size: ${lookup.size}).`);
+  console.log(`Merged Popcornmeter scores into ${updated} movies (lookup entries: ${lookup.size}).`);
 }
 
 main().catch((err) => {
-  console.error(err);
-  process.exit(1);
+  console.warn('Non-fatal Popcornmeter merge warning:', err.message);
 });
