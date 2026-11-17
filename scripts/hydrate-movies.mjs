@@ -39,7 +39,6 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 function mapGenre(omdbGenres = '', tmdbGenreIds = []) {
   const parts = omdbGenres.split(',').map((g) => g.trim()).filter(Boolean);
-  // Promote Comedy + Romance to Rom-Com to match PopcornRank categories
   if (parts.includes('Comedy') && parts.includes('Romance')) return 'Rom-Com';
   for (const part of parts) {
     if (GENRE_MAP[part]) return GENRE_MAP[part];
@@ -57,13 +56,14 @@ function formatRuntime(rawRuntime) {
   return h > 0 ? `${h}h ${String(m).padStart(2, '0')}m` : `${m}m`;
 }
 
-async function fetchTmdbCandidateIds() {
-  const discovered = new Map(); // tmdbId -> { genre_ids, release_date }
+async function fetchTmdbCandidates() {
+  const discovered = new Map();
 
-  // Pull top-voted popular movies (50 pages = ~1,000 titles) + current popular releases (15 pages = ~300 titles)
+  // Pull up to ~3,000 unique candidate movies across 3 sorted slices
   const queries = [
-    { pages: 50, params: 'sort_by=vote_count.desc&vote_count.gte=500&include_adult=false&language=en-US' },
-    { pages: 15, params: 'sort_by=popularity.desc&vote_count.gte=500&include_adult=false&language=en-US' }
+    { pages: 75, params: 'sort_by=vote_count.desc&vote_count.gte=250&include_adult=false&language=en-US' },
+    { pages: 40, params: 'sort_by=popularity.desc&vote_count.gte=250&include_adult=false&language=en-US' },
+    { pages: 35, params: 'sort_by=vote_average.desc&vote_count.gte=1000&include_adult=false&language=en-US' }
   ];
 
   for (const q of queries) {
@@ -75,7 +75,9 @@ async function fetchTmdbCandidateIds() {
         break;
       }
       const data = await res.json();
-      for (const item of data.results || []) {
+      if (!data.results || data.results.length === 0) break;
+
+      for (const item of data.results) {
         if (!discovered.has(item.id)) {
           discovered.set(item.id, {
             tmdbId: item.id,
@@ -85,7 +87,7 @@ async function fetchTmdbCandidateIds() {
           });
         }
       }
-      await sleep(35);
+      await sleep(30);
     }
   }
 
@@ -121,21 +123,26 @@ async function main() {
     if (movie.imdbId) byImdbId.set(movie.imdbId, movie);
   }
 
-  // Build queue:
-  // 1. Existing movies missing posters or ratings
-  // 2. Newly discovered TMDB movies not yet in movies.json
-  const candidates = await fetchTmdbCandidateIds();
-  const currentYear = new Date().getFullYear();
+  const candidates = await fetchTmdbCandidates();
+  const now = Date.now();
+  const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
-  const existingNeedsEnrichment = existing.filter(
-    (m) => m.imdbId && (!m.posterUrl || m.imdb10 == null || m.year >= currentYear - 1)
-  );
+  // Cap maintenance re-checks to max 50 movies/day so 850+ calls go to brand-new movies
+  const existingNeedsEnrichment = existing
+    .filter((m) => {
+      if (!m.imdbId) return false;
+      if (m.imdb10 == null) return true;
+      const last = m.lastHydrated ? Date.parse(m.lastHydrated) : 0;
+      return !m.posterUrl && now - last > THIRTY_DAYS_MS;
+    })
+    .slice(0, 50);
 
   let omdbCalls = 0;
   let addedCount = 0;
   let updatedCount = 0;
+  const todayIso = new Date().toISOString().slice(0, 10);
 
-  // Step A: Enrich existing movies missing posters/scores first
+  // Step A: Light maintenance on up to 50 unhydrated existing titles
   for (const movie of existingNeedsEnrichment) {
     if (omdbCalls >= DAILY_OMDB_CAP) break;
 
@@ -147,6 +154,7 @@ async function main() {
         console.warn('OMDb daily limit reached during enrichment. Stopping cleanly.');
         break;
       }
+      movie.lastHydrated = todayIso;
       continue;
     }
 
@@ -159,7 +167,6 @@ async function main() {
         ? parseInt(data.imdbVotes.replace(/,/g, ''), 10)
         : movie.reviews;
 
-    // Preserve curated Popcornmeter if already set; keep null if unknown
     const popcorn = typeof movie.popcorn === 'number' ? movie.popcorn : null;
     const audienceAvg =
       popcorn != null && imdb10 != null
@@ -179,19 +186,20 @@ async function main() {
           ? data.Actors.split(',').map((s) => s.trim())
           : movie.cast,
       synopsis: data.Plot && data.Plot !== 'N/A' ? data.Plot : movie.synopsis,
-      posterUrl: data.Poster && data.Poster !== 'N/A' ? data.Poster : movie.posterUrl || ''
+      posterUrl: data.Poster && data.Poster !== 'N/A' ? data.Poster : movie.posterUrl || '',
+      lastHydrated: todayIso
     });
 
     updatedCount++;
-    await sleep(120);
+    await sleep(110);
   }
 
-  // Step B: Resolve IMDb IDs for new TMDB candidates and hydrate up to DAILY_OMDB_CAP
+  // Step B: Discover & add new movies up to DAILY_OMDB_CAP
   for (const cand of candidates) {
     if (omdbCalls >= DAILY_OMDB_CAP) break;
 
     const imdbId = await resolveImdbIdFromTmdb(cand.tmdbId);
-    await sleep(35);
+    await sleep(30);
 
     if (!imdbId || byImdbId.has(imdbId)) continue;
 
@@ -213,7 +221,7 @@ async function main() {
       data.imdbVotes && data.imdbVotes !== 'N/A'
         ? parseInt(data.imdbVotes.replace(/,/g, ''), 10)
         : 0;
-    if (reviews < 500) continue; // Match PopcornRank's 500+ review floor
+    if (reviews < 500) continue;
 
     const rt = (data.Ratings || []).find((r) => r.Source === 'Rotten Tomatoes');
     const tomatometer = rt ? parseInt(rt.Value, 10) : null;
@@ -229,7 +237,7 @@ async function main() {
       year,
       decade: `${Math.floor(year / 10) * 10}s`,
       genre: mapGenre(data.Genre, cand.genreIds),
-      popcorn: null, // OMDb does not expose RT Audience Score; index.html falls back cleanly to IMDb (x10)
+      popcorn: null,
       imdbRaw,
       imdb10,
       audienceAvg: imdb10,
@@ -240,14 +248,15 @@ async function main() {
       cast: data.Actors && data.Actors !== 'N/A' ? data.Actors.split(',').map((s) => s.trim()) : [],
       synopsis: data.Plot && data.Plot !== 'N/A' ? data.Plot : '',
       posterGradient: GRADIENTS[maxId % GRADIENTS.length],
-      posterUrl: data.Poster && data.Poster !== 'N/A' ? data.Poster : ''
+      posterUrl: data.Poster && data.Poster !== 'N/A' ? data.Poster : '',
+      lastHydrated: todayIso
     };
 
     existing.push(record);
     byImdbId.set(imdbId, record);
     addedCount++;
 
-    await sleep(120);
+    await sleep(110);
   }
 
   fs.writeFileSync(MOVIES_FILE, `${JSON.stringify(existing, null, 2)}\n`, 'utf8');
