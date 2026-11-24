@@ -21795,16 +21795,16 @@
     "tomatometer": 86,
     "reviews": 292017,
     "runtime": "1h 30m",
-    "director": "Chris Miller",
+    "director": "Phil Lord, Christopher Miller",
     "cast": [
-      "Bill Hader",
       "Anna Faris",
-      "James Caan",
-      "Andy Samberg"
+      "Bill Hader",
+      "Bruce Campbell"
     ],
-    "synopsis": "When hard times hit Swallow Falls, its townspeople can only afford to eat sardines. Flint Lockwood, a failed inventor, thinks he has the answer to the town's crisis. He builds a machine that converts water into food, and becomes a local hero when tasty treats fall from the sky like rain. But when the machine spins out of control and threatens to bury the whole world under giant mounds of food, Flint finds he may have bitten off more than he can chew.",
+    "synopsis": "An eccentric inventor is regarded as a failure within his isolated community until he creates a machine that can make it rain food.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTg0MjAwNDI5MV5BMl5BanBnXkFtZTcwODkyMzg2Mg@@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 895,
@@ -21820,11 +21820,16 @@
     "tomatometer": null,
     "reviews": 291776,
     "runtime": "2h 29m",
-    "director": "",
-    "cast": [],
-    "synopsis": "",
+    "director": "Wolfgang Petersen",
+    "cast": [
+      "Jürgen Prochnow",
+      "Herbert Grönemeyer",
+      "Klaus Wennemann"
+    ],
+    "synopsis": "During World War II, a German U-boat crew embarks on a perilous Atlantic patrol, confronting enemy attacks, isolation, and the crushing strain of life underwater.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BNGU0MWZlMTUtM2Y3Ny00NGNmLWE5NmEtN2YxOWQzMGM3ZWYzXkEyXkFqcGc@._V1_QL75_UX380_CR0,7,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 896,
@@ -21840,11 +21845,16 @@
     "tomatometer": null,
     "reviews": 291607,
     "runtime": "1h 34m",
-    "director": "",
-    "cast": [],
-    "synopsis": "",
+    "director": "Carlos Saldanha, Michael Thurmeier",
+    "cast": [
+      "Ray Romano",
+      "John Leguizamo",
+      "Denis Leary"
+    ],
+    "synopsis": "When Sid's attempt to adopt three dinosaur eggs gets him abducted by their real mother to an underground lost world, his friends attempt to rescue him.",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BZWJjZDYwMjgtZDZiMy00YzcyLThjN2YtYjI1ZDQ2ZDJkOTVmXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 897,
@@ -21860,16 +21870,16 @@
     "tomatometer": 94,
     "reviews": 291080,
     "runtime": "2h 15m",
-    "director": "George Cukor",
+    "director": "Greta Gerwig",
     "cast": [
-      "Katharine Hepburn",
-      "Joan Bennett",
-      "Frances Dee",
-      "Jean Parker"
+      "Saoirse Ronan",
+      "Emma Watson",
+      "Florence Pugh"
     ],
-    "synopsis": "The endearing saga of the March sisters -- Meg (Frances Dee), Jo (Katharine Hepburn), Amy and Beth -- who come of age in New England during the Civil War, is based on the classic Louisa May Alcott novel. With Mr. March away fighting for the Union cause, the girls and their beloved mother, Marmee (Spring Byington), manage to keep their spirits up through dire economic and emotional crises, until Jo's literary aspirations and Meg's romance with a teacher threaten to pull the sisters apart.",
+    "synopsis": "In 19th century Massachusetts, the March sisters--Meg, Jo, Beth, and Amy--on the threshold of womanhood, go through many ups and downs in life and endeavor to make important decisions about their futures.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMWMzYjNiZWMtMDg4NS00MDgyLTk5MWItOTFmNjg4NzRhZmExXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 898,
@@ -21888,13 +21898,13 @@
     "director": "Sharon Maguire",
     "cast": [
       "Renée Zellweger",
-      "Hugh Grant",
       "Colin Firth",
-      "Jim Broadbent"
+      "Hugh Grant"
     ],
-    "synopsis": "At the start of the New Year, 32-year-old Bridget (Renée Zellweger) decides it's time to take control of her life -- and start keeping a diary. Now, the most provocative, erotic and hysterical book on her bedside table is the one she's writing. With a taste for adventure, and an opinion on every subject - from exercise to men to food to sex and everything in between - she's turning the page on a whole new life.",
+    "synopsis": "Bridget Jones is determined to improve herself while she looks for love in a year in which she keeps a personal diary.",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BNTM1MTFiNDEtMGYzZC00MjM5LWEwMWMtN2VhNjg1MTEzOTg3XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 899,
@@ -21913,13 +21923,13 @@
     "director": "J.B. Rogers",
     "cast": [
       "Jason Biggs",
-      "Shannon Elizabeth",
-      "Jennifer Coolidge",
-      "Alyson Hannigan"
+      "Seann William Scott",
+      "Shannon Elizabeth"
     ],
-    "synopsis": "After a year apart - attending different schools, meeting different people - the guys rent a beach house and vow to make this the best summer ever. As it turns out, whether that will happen or not has a lot to do with the girls. Between the wild parties, outrageous revelations and yes, a trip to band camp, they discover that times change and people change, but in the end, it's all about sticking together.",
+    "synopsis": "Jim and his friends are now in college, and they decide to meet up at the beach house for some fun.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BM2I4MDEwOTctNGE0Yi00NTJlLThiZGEtNzU1YjExNmRlYzI2XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 900,
@@ -21937,14 +21947,14 @@
     "runtime": "1h 32m",
     "director": "Rawson Marshall Thurber",
     "cast": [
-      "Vince Vaughn",
-      "Christine Taylor",
       "Ben Stiller",
-      "Rip Torn"
+      "Christine Taylor",
+      "Vince Vaughn"
     ],
-    "synopsis": "Average Joe's Gym and its owner, Peter La Fleur (Vince Vaughn), are both down on their luck. A fancy competing gym called Globo-Gym, run by the maniacal health nut White Goodman (Ben Stiller), is about to put Average Joe's out of business unless Peter can raise $50,000 to keep his mortgage. To save the gym, Peter and a ragtag group of Average Joe's members and employees enter a dodgeball contest with a big cash prize. In response, White forms his own Globo-Gym team to rout the competition.",
+    "synopsis": "A group of misfits enter a Las Vegas dodgeball tournament in order to save their cherished local gym from the onslaught of a corporate health fitness chain.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTIwMzE2MjM4MV5BMl5BanBnXkFtZTYwNjA1OTY3._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 901,
@@ -21964,12 +21974,12 @@
     "cast": [
       "Pierce Brosnan",
       "Sean Bean",
-      "Izabella Scorupco",
-      "Famke Janssen"
+      "Izabella Scorupco"
     ],
-    "synopsis": "When a powerful satellite system falls into the hands of Alec Trevelyan, AKA Agent 006 (Sean Bean), a former ally-turned-enemy, only James Bond (Pierce Brosnan) can save the world from an awesome space weapon that -- in one short pulse -- could destroy the earth! As Bond squares off against his former compatriot, he also battles Trevelyan's stunning ally, Xenia Onatopp (Famke Janssen), an assassin who uses pleasure as her ultimate weapon.",
+    "synopsis": "When a powerful secret defense system is stolen, James Bond is assigned to stop a Russian crime syndicate from using it.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOGQxNmYyY2YtZGIyNy00ODgxLThhZWEtZGIyNjJhYzFlOTllXkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 902,
@@ -21989,12 +21999,12 @@
     "cast": [
       "Liam Neeson",
       "Julianne Moore",
-      "Corey Stoll",
-      "Michelle Dockery"
+      "Scoot McNairy"
     ],
-    "synopsis": "Alcoholic and world-weary, U.S. Air Marshal Bill Marks (Liam Neeson) lost his passion for his work long ago. Even though lives are potentially at stake during every flight, he sees the assignment as just a desk job. However, his \"ordinary day at the office\" becomes a high-stakes crisis during a flight to London. Marks receives a series of text messages demanding that he instruct the airline to transfer $150 million into an offshore account, or a passenger will die every 20 minutes.",
+    "synopsis": "An air marshal springs into action during a transatlantic flight after receiving a series of text messages demanding $150 million into an off-shore account, or someone will die every 20 minutes.",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOTI3NzcxMjkzMl5BMl5BanBnXkFtZTgwMDY0NTQ0MDE@._V1_QL75_UX380_CR0,20,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 903,
@@ -22013,13 +22023,13 @@
     "director": "Ted Demme",
     "cast": [
       "Johnny Depp",
-      "Penelope Cruz",
-      "Jordi Molla",
+      "Penélope Cruz",
       "Franka Potente"
     ],
-    "synopsis": "In the turbulence of the 1970s, the international drug trade underwent a fast, violent and lucrative revolution - and one ordinary American was at its center. But in just a few short years, George Jung (Johnny Depp), a high-school football star single handedly became the world's premiere importer of cocaine from Colombia's Medellin cartel, changing the course of an entire generation. \"Blow\" is a high-velocity look at George Jung's spectacular rise and fall.",
+    "synopsis": "The story of how George Jung, along with the Medellín Cartel headed by Pablo Escobar, established the American cocaine market in the 1970s in the United States.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BNTNkMzMwOWItM2FmYS00YmI2LWE4NjUtMmI5MDk0YTkwZjM2XkEyXkFqcGc@._V1_QL75_UY562_CR7,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 904,
@@ -22039,12 +22049,12 @@
     "cast": [
       "Charles Chaplin",
       "Paulette Goddard",
-      "Henry Bergman",
-      "Chester Conklin"
+      "Henry Bergman"
     ],
-    "synopsis": "This comedic masterpiece finds the iconic Little Tramp (Charlie Chaplin) employed at a state-of-the-art factory where the inescapable machinery completely overwhelms him, and where various mishaps keep getting him sent to prison. In between his various jail stints, he meets and befriends an orphan girl (Paulette Goddard). Both together and apart, they try to contend with the difficulties of modern life, with the Tramp working as a waiter and eventually a performer.",
+    "synopsis": "The Tramp struggles to live in modern industrial society with the help of a young homeless woman.",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BODVkZGFhNGQtYjdiYi00Njc4LWFmYTItNTlmNzJjMTg1ZDc5XkEyXkFqcGc@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 905,
@@ -22064,12 +22074,12 @@
     "cast": [
       "Daniel Day-Lewis",
       "Sally Field",
-      "David Strathairn",
-      "Tommy Lee Jones"
+      "David Strathairn"
     ],
-    "synopsis": "With the nation embroiled in still another year with the high death count of Civil War, President Abraham Lincoln brings the full measure of his passion, humanity and political skill to what would become his defining legacy: to end the war and permanently abolish slavery through the 13th Amendment. Having great courage, acumen and moral fortitude, Lincoln pushes forward to compel the nation, and those in government who oppose him, to aim toward a greater good for all mankind.",
+    "synopsis": "As the Civil War rages on, U.S President Abraham Lincoln struggles with continuing carnage on the battlefield as he fights with many inside his own cabinet on his decision to emancipate the slaves.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTQzNzczMDUyNV5BMl5BanBnXkFtZTcwNjM2ODEzOA@@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 906,
@@ -22085,16 +22095,16 @@
     "tomatometer": 100,
     "reviews": 287404,
     "runtime": "1h 43m",
-    "director": "Stanley Donen",
+    "director": "Stanley Donen, Gene Kelly",
     "cast": [
       "Gene Kelly",
-      "Donald O'Connor",
-      "Debbie Reynolds",
-      "Jean Hagen"
+      "Donald O&apos;Connor",
+      "Debbie Reynolds"
     ],
-    "synopsis": "A spoof of the turmoil that afflicted the movie industry in the late 1920s when movies went from silent to sound. When two silent movie stars', Don Lockwood and Lina Lamont, latest movie is made into a musical a chorus girl is brought in to dub Lina's speaking and singing. Don is on top of the world until Lina finds out.",
+    "synopsis": "When Hollywood's silent era gives way to talkies, a dashing screen idol and a gifted newcomer navigate romance, rivalry, and the comic chaos of reinventing the movies.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMGQzZDFjZWUtZDU4ZS00ZjM3LTgyYmItYjA3YmIwYzRkZWY3XkEyXkFqcGc@._V1_QL75_UY562_CR3,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 907,
@@ -22114,12 +22124,12 @@
     "cast": [
       "Sharlto Copley",
       "Dev Patel",
-      "Ninja",
-      "Yolandi Visser"
+      "Hugh Jackman"
     ],
-    "synopsis": "In the near future, a mechanized police force patrols the streets and deals with lawbreakers -- but now, the people are fighting back. When one police droid is stolen and given new programming, he acquires the ability to feel and think for himself. While the robot, dubbed \"Chappie (Sharlto Copley),\" puzzles out human behavior, the authorities begin to see him as a danger to mankind and order; they will stop at nothing to ensure that Chappie is the last of his kind.",
+    "synopsis": "In the near future, crime is patrolled by a mechanized police force. When one police droid, Chappie, is stolen and given new programming, he becomes the first robot with the ability to think and feel for himself.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTUyNTI4NTIwNl5BMl5BanBnXkFtZTgwMjQ4MTI0NDE@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 908,
@@ -22139,12 +22149,12 @@
     "cast": [
       "Brad Pitt",
       "Tommy Lee Jones",
-      "Ruth Negga",
-      "Liv Tyler"
+      "Ruth Negga"
     ],
-    "synopsis": "Thirty years ago, Clifford McBride led a voyage into deep space, but the ship and crew were never heard from again. Now his son -- a fearless astronaut -- must embark on a daring mission to Neptune to uncover the truth about his missing father and a mysterious power surge that threatens the stability of the universe.",
+    "synopsis": "An astronaut embarks on a space mission to investigate a threat to the universe and uncover the truth about his father who disappeared thirty years ago.",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOGRhOGNjZjEtNTU2Ni00MDlmLWI3MWEtNzc1OGE2ZmEwZGNhXkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 909,
@@ -22164,12 +22174,12 @@
     "cast": [
       "Simon Pegg",
       "Nick Frost",
-      "Jason Bateman",
-      "Kristen Wiig"
+      "Seth Rogen"
     ],
-    "synopsis": "For the past 60 years, a wisecracking alien named Paul (Seth Rogen) has resided at a top-secret military base in America's UFO heartland. When Paul decides he has had enough of Earth, he escapes from the compound and hops on the first handy vehicle -- a rented RV manned by two British sci-fi nerds named Graeme (Simon Pegg) and Clive (Nick Frost). With federal agents and the father of an accidental kidnap victim on their tail, the two hatch a crazy plan to help Paul return to his spaceship.",
+    "synopsis": "Two English comic book geeks traveling across the U.S. encounter an alien outside Area 51.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOGIyZDNhODctYzg3ZS00YjVmLWE4NGEtYjM5OGM0MmQxYThmXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 910,
@@ -22187,14 +22197,14 @@
     "runtime": "2h 04m",
     "director": "David Lynch",
     "cast": [
-      "John Hurt",
       "Anthony Hopkins",
-      "Anne Bancroft",
-      "John Gielgud"
+      "John Hurt",
+      "Anne Bancroft"
     ],
-    "synopsis": "Dr. Frederic Treves (Anthony Hopkins) discovers Joseph (John) Merrick (John Hurt) in a sideshow. Born with a congenital disorder, Merrick uses his disfigurement to earn a living as the \"Elephant Man.\" Treves brings Merrick into his home, discovering that his rough exterior hides a refined soul, and that Merrick can teach the stodgy British upper class of the time a lesson about dignity. Merrick becomes the toast of London and charms a caring actress (Anne Bancroft) before his death at 27.",
+    "synopsis": "A Victorian surgeon rescues a heavily-disfigured and mistreated young man working as a sideshow freak, who gradually reveals his capacity for kindness, intelligence and sophistication.",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMGE2MzViYzEtZDFmOC00YmViLWFkZTQtYmI2NmI3NDJjMDc0XkEyXkFqcGc@._V1_QL75_UX380_CR0,6,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 911,
@@ -22212,14 +22222,14 @@
     "runtime": "1h 40m",
     "director": "Emile Ardolino",
     "cast": [
-      "Jennifer Grey",
       "Patrick Swayze",
-      "Jerry Orbach",
-      "Cynthia Rhodes"
+      "Jennifer Grey",
+      "Jerry Orbach"
     ],
-    "synopsis": "Baby (Jennifer Grey) is one listless summer away from the Peace Corps. Hoping to enjoy her youth while it lasts, she's disappointed when her summer plans deposit her at a sleepy resort in the Catskills with her parents. Her luck turns around, however, when the resort's dance instructor, Johnny (Patrick Swayze), enlists Baby as his new partner, and the two fall in love. Baby's father forbids her from seeing Johnny, but she's determined to help him perform the last big dance of the summer.",
+    "synopsis": "Spending the summer at a Catskills resort with her family, Frances \"Baby\" Houseman falls in love with the camp's dance instructor, Johnny Castle.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BZmIwZjA1NzUtNTA0OS00OWMyLWE5MzctM2RjOWYxZjQyZDdmXkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 912,
@@ -22235,16 +22245,16 @@
     "tomatometer": 39,
     "reviews": 286337,
     "runtime": "2h 01m",
-    "director": "",
+    "director": "Joel Schumacher",
     "cast": [
-      "Corey Jacoby",
-      "Maurice Lamont",
-      "Jim Palmer",
-      "Mike Smith"
+      "Val Kilmer",
+      "Tommy Lee Jones",
+      "Jim Carrey"
     ],
-    "synopsis": "Batman (Val Kilmer) faces off against two foes: the schizophrenic, horribly scarred former District Attorney Harvey Dent, aka Two-Face (Tommy Lee Jones), and the Riddler (Jim Carrey), a disgruntled ex-Wayne Enterprises inventor seeking revenge against his former employer by unleashing his brain-sucking weapon on Gotham City's residents. As the caped crusader also deals with tortured memories of his parents' murder, he has a new romance, with psychologist Chase Meridian (Nicole Kidman).",
+    "synopsis": "Batman must battle former district attorney Harvey Dent, who is now Two-Face and Edward Nygma, The Riddler with help from an amorous psychologist and a young circus acrobat who becomes his sidekick, Robin.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTUyNjJhZWItMTZkNS00NDc4LTllNjUtYTg3NjczMzA5ZTViXkEyXkFqcGc@._V1_QL75_UY562_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 913,
@@ -22262,14 +22272,14 @@
     "runtime": "2h 05m",
     "director": "Joel Schumacher",
     "cast": [
-      "George Clooney",
-      "Chris O'Donnell",
       "Arnold Schwarzenegger",
-      "Uma Thurman"
+      "George Clooney",
+      "Chris O&apos;Donnell"
     ],
-    "synopsis": "This superhero adventure finds Batman (George Clooney) and his partner, Robin (Chris O'Donnell), attempting to the foil the sinister schemes of a deranged set of new villains, most notably the melancholy Mr. Freeze (Arnold Schwarzenegger), who wants to make Gotham into an arctic region, and the sultry Poison Ivy (Uma Thurman), a plant-loving femme fatale. As the Dynamic Duo contends with these bad guys, a third hero, Batgirl (Alicia Silverstone), joins the ranks of the city's crime-fighters.",
+    "synopsis": "Batman and Robin try to keep their relationship together even as they must stop Mr. Freeze and Poison Ivy from freezing Gotham City.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BYzU3ZjE3M2UtM2E4Ni00MDI5LTkyZGUtOTFkMGIyYjNjZGU3XkEyXkFqcGc@._V1_QL75_UX380_CR0,2,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 914,
@@ -22289,12 +22299,12 @@
     "cast": [
       "Matt Damon",
       "Emily Blunt",
-      "Anthony Mackie",
-      "Jon Stewart"
+      "Lisa Thoreson"
     ],
-    "synopsis": "Just as he is on the brink of winning a Senate seat, politician David Norris (Matt Damon) meets a ballerina named Elise Sellas (Emily Blunt). Though David is instantly smitten, mysterious men conspire to keep him away from the beautiful dancer. David learns that he is facing the powerful agents of Fate itself, and glimpsing the future laid out for him, must either accept a predetermined path that does not include Elise or else defy Fate to be with her.",
+    "synopsis": "The relationship between a politician and a contemporary dancer is affected by mysterious forces keeping them apart.",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTU3ODg3MDAxMl5BMl5BanBnXkFtZTcwMjc0MDMzNA@@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 915,
@@ -22310,16 +22320,16 @@
     "tomatometer": 84,
     "reviews": 285883,
     "runtime": "1h 33m",
-    "director": "John Musker",
+    "director": "Ron Clements, John Musker",
     "cast": [
       "Tate Donovan",
-      "Danny DeVito",
-      "James Woods",
-      "Susan Egan"
+      "Susan Egan",
+      "James Woods"
     ],
-    "synopsis": "Disney tackles Greek mythology in this animated feature. Hercules (Tate Donovan), a son of gods, was snatched as a baby by Hades (James Woods) and forced to live among mortals as a half-man, half-god. Now a teenager, Hercules needs to perform a rite of passage on Earth to prove himself worthy of living with the gods on Mount Olympus. With his plucky satyr sidekick, Philoctetes (Danny DeVito), along for the ride, Hercules must learn how to use his strength to defeat a series of evil creatures.",
+    "synopsis": "The son of Zeus and Hera is stripped of his immortality as an infant and must become a true hero in order to reclaim it.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMmUyZGY1ZjItMWYwZS00MjJjLTg1YzAtY2Q5OTA4MmFhYzFjXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 916,
@@ -22339,12 +22349,12 @@
     "cast": [
       "Alicia Silverstone",
       "Stacey Dash",
-      "Brittany Murphy",
-      "Paul Rudd"
+      "Brittany Murphy"
     ],
-    "synopsis": "Shallow, rich and socially successful Cher (Alicia Silverstone) is at the top of her Beverly Hills high school's pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other. Emboldened by her success, she decides to give hopelessly klutzy new student Tai (Brittany Murphy) a makeover. When Tai becomes more popular than she is, Cher realizes that her disapproving ex-stepbrother (Paul Rudd) was right about how misguided she was -- and falls for him.",
+    "synopsis": "Shallow, rich and socially successful Cher is at the top of her Beverly Hills high school's pecking scale. Seeing herself as a matchmaker, Cher first coaxes two teachers into dating each other.",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTgwYjQ1NDktOTcwNi00MWZhLTliYWQtZDg5NjZhY2U5ZTNlXkEyXkFqcGc@._V1_QL75_UX380_CR0,2,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 917,
@@ -22363,13 +22373,13 @@
     "director": "Antoine Fuqua",
     "cast": [
       "Jake Gyllenhaal",
-      "Forest Whitaker",
       "Rachel McAdams",
-      "Naomie Harris"
+      "Oona Laurence"
     ],
-    "synopsis": "Billy \"The Great\" Hope (Jake Gyllenhaal), the reigning junior middleweight boxing champion, has an impressive career, a loving wife and daughter, and a lavish lifestyle. However, when tragedy strikes, Billy hits rock bottom, losing his family, his house and his manager. He soon finds an unlikely savior in Tick Willis (Forest Whitaker), a former fighter who trains the city's toughest amateur boxers. With his future on the line, Hope fights to reclaim the trust of those he loves the most.",
+    "synopsis": "After a fatal incident sends him on a rampant path of destruction, a champion boxer fights to get custody of his daughter and revive his professional career.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMjI1MTcwODk0MV5BMl5BanBnXkFtZTgwMTgwMDM5NTE@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 918,
@@ -22389,12 +22399,12 @@
     "cast": [
       "Jim Sturgess",
       "Kate Bosworth",
-      "Laurence Fishburne",
       "Kevin Spacey"
     ],
-    "synopsis": "Ben Campbell (Jim Sturgess), a brilliant student at Massachusetts Institute of Technology, needs some quick cash to pay his tuition bills. He joins a group of students who, under the leadership of unorthodox professor Mickey Rosa (Kevin Spacey), use their math skills to win big in Las Vegas. Seduced by a beautiful teammate (Kate Bosworth) and loads of money, Ben learns that the stakes are higher than he ever imagined when he crosses paths with casino enforcer Cole Williams (Laurence Fishburne).",
+    "synopsis": "Inspired by real events and people, 21 is about six MIT students who become trained to be experts in card counting in blackjack and subsequently took Vegas casinos for millions in winnings.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOTVkZWI5OGMtYmI0NC00MWJmLWE4ZWMtMDA0OTY4NTkzYmNjXkEyXkFqcGc@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 919,
@@ -22412,14 +22422,14 @@
     "runtime": "1h 42m",
     "director": "David Mackenzie",
     "cast": [
-      "Dale Dickey",
       "Chris Pine",
       "Ben Foster",
       "Jeff Bridges"
     ],
-    "synopsis": "Toby is a divorced father who's trying to make a better life for his son. His brother Tanner is an ex-convict with a short temper and a loose trigger finger. Together, they plan a series of heists against the bank that's about to foreclose on their family ranch. Standing in their way is Marcus, a Texas Ranger who's only weeks away from retirement. As the siblings plot their final robbery, they must also prepare for a showdown with a crafty lawman who's not ready to ride off into the sunset.",
+    "synopsis": "A divorced father and his ex-con brother plan a series of heists against the bank that's about to foreclose on their family ranch.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTg4NDA1OTA5NF5BMl5BanBnXkFtZTgwMDQ2MDM5ODE@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 920,
@@ -22439,12 +22449,12 @@
     "cast": [
       "Joaquin Phoenix",
       "Reese Witherspoon",
-      "Ginnifer Goodwin",
-      "Robert Patrick"
+      "Ginnifer Goodwin"
     ],
-    "synopsis": "The rise of country music legend Johnny Cash (Joaquin Phoenix) begins with his days as a boy growing up on the family farm, where he struggles under the scorn of his father (Robert Patrick). As the years pass, Cash ends up in Memphis, Tenn., with his wife, Vivian (Ginnifer Goodwin), and breaks into the music scene after finding his trademark sound. While on tour, Cash meets the love of his life, singer June Carter (Reese Witherspoon), but Cash's volatile lifestyle threatens to keep them apart.",
+    "synopsis": "A chronicle of country-music legend Johnny Cash's life, from his early Arkansas-cotton-farm days to his rise to fame with Sun Records in Memphis, where he recorded alongside Elvis Presley, Jerry Lee Lewis, and Carl Perkins.",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMjIyOTU3MjUxOF5BMl5BanBnXkFtZTcwMTQ0NjYzMw@@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 921,
@@ -22462,14 +22472,14 @@
     "runtime": "1h 36m",
     "director": "Woody Allen",
     "cast": [
-      "Javier Bardem",
-      "Penelope Cruz",
+      "Rebecca Hall",
       "Scarlett Johansson",
-      "Patricia Clarkson"
+      "Javier Bardem"
     ],
-    "synopsis": "Americans Vicky (Rebecca Hall) and Cristina (Scarlett Johansson) arrive in Spain for a summer vacation at a friend's (Patricia Clarkson) Barcelona home. Visiting an art gallery, they meet seductive painter Juan Antonio (Javier Bardem), who invites them for a weekend of food, art and sex. Sparks really ignite when his fiery former lover (Penélope Cruz) arrives on the scene, making for a very crowded house.",
+    "synopsis": "Two friends on a summer holiday in Spain become enamored with the same painter, unaware that his ex-wife, with whom he has a tempestuous relationship, is about to re-enter the picture.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOGYyZTllMmUtZDFmYS00ZjJhLThhNmEtZmQwYzkzNjkyNzhlXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 922,
@@ -22483,13 +22493,18 @@
     "imdb10": 60,
     "audienceAvg": 60,
     "tomatometer": null,
-    "reviews": 283306,
+    "reviews": 283326,
     "runtime": "2h 04m",
-    "director": "",
-    "cast": [],
-    "synopsis": "",
+    "director": "Peyton Reed",
+    "cast": [
+      "Paul Rudd",
+      "Evangeline Lilly",
+      "Michael Douglas"
+    ],
+    "synopsis": "Scott Lang and Hope Van Dyne are dragged into the Quantum Realm, along with Hope's parents and Scott's daughter Cassie. Together they must find a way to escape, but what secrets is Hope's mother hiding? And who is the mysterious K...",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMThkYWY5ZjQtYjJlMS00MDFmLWFkYzEtODEzZjg5YWFmMGY4XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 923,
@@ -22507,14 +22522,14 @@
     "runtime": "2h 03m",
     "director": "Jaume Collet-Serra",
     "cast": [
-      "Peter Sarsgaard",
       "Vera Farmiga",
-      "Isabelle Fuhrman",
-      "CCH Pounder"
+      "Peter Sarsgaard",
+      "Isabelle Fuhrman"
     ],
-    "synopsis": "Devastated by the loss of their unborn baby, Kate (Vera Farmiga) and John (Peter Sarsgaard) decide to adopt a child. At the orphanage, both feel drawn to a little girl (Isabelle Fuhrman) named Esther, and soon the couple take their new daughter home. But when a dangerous series of events unfolds, Kate begins to suspect that there is something evil lurking behind the child's angelic exterior.",
+    "synopsis": "A husband and wife who recently lost their baby adopt a 9-year-old girl who is not nearly as innocent as she appears.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BYjc1Y2M4ZmQtMTA2NC00OTUwLTgxZDMtZDJmNTk1OTU4Njk4XkEyXkFqcGc@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 924,
@@ -22534,12 +22549,12 @@
     "cast": [
       "Ben Whishaw",
       "Dustin Hoffman",
-      "Alan Rickman",
-      "Rachel Hurd-Wood"
+      "Alan Rickman"
     ],
-    "synopsis": "With his incredible talent for discerning scents, Jean-Baptiste Grenouille (Ben Whishaw) is one of 18th-century France's finest perfumers. He becomes obsessed with capturing an elusive aroma: the scent of young womanhood. His search takes a deadly turn, and when the bodies of 12 young females are found, panic breaks out, with families rushing to lock up their daughters.",
+    "synopsis": "Jean-Baptiste Grenouille, born with a superior olfactory sense, creates the world's finest perfume. His work, however, takes a dark turn as he searches for the ultimate scent.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTg2Mzk2NjkzNl5BMl5BanBnXkFtZTYwMzIzOTc2._V1_QL75_UX380_CR0,1,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 925,
@@ -22558,13 +22573,13 @@
     "director": "Daniel Espinosa",
     "cast": [
       "Jake Gyllenhaal",
-      "Ryan Reynolds",
       "Rebecca Ferguson",
-      "Hiroyuki Sanada"
+      "Ryan Reynolds"
     ],
-    "synopsis": "Astronauts (Jake Gyllenhaal, Rebecca Ferguson, Ryan Reynolds) aboard the International Space Station are on the cutting edge of one of the most important discoveries in human history: the first evidence of extraterrestrial life on Mars. As members of the crew conduct their research, the rapidly evolving life-form proves far more intelligent and terrifying than anyone could have imagined.",
+    "synopsis": "A team of scientists aboard the ISS discover a rapidly evolving Martian predator that needs to be kept away from Earth at all costs.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BNWNkYWYzNGUtOWVjNS00MGY0LWIyY2YtODllNGIxOGRlOTgyXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 926,
@@ -22582,14 +22597,14 @@
     "runtime": "2h 03m",
     "director": "Asghar Farhadi",
     "cast": [
-      "Leila Hatami",
       "Payman Maadi",
-      "Shahab Hosseini",
+      "Leila Hatami",
       "Sareh Bayat"
     ],
-    "synopsis": "When Nader (Payman Maadi), a bank employee, refuses to leave Tehran, his wife, Simin (Leila Hatami) sues for divorce in the hope that she can make a better life for their young daughter abroad. Needing someone to care for his senile father while he's at work, Nader hires Razieh (Sareh Bayat), a married woman whose chador hides her pregnancy. One day, after becoming angry with Razieh, Nader shoves her, and she has a miscarriage, leading Razieh's husband to take Nader to court.",
+    "synopsis": "A married couple have to decide whether to improve their daughter's life by moving abroad or to stay in Iran and look after a deteriorating parent with Alzheimer's disease.",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMDM0ZWRmMzctM2M5ZS00ZjU0LWIxN2MtNWNlNGY1ZDhjMDVhXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 927,
@@ -22609,12 +22624,12 @@
     "cast": [
       "Steve McQueen",
       "James Garner",
-      "Richard Attenborough",
-      "James Donald"
+      "Richard Attenborough"
     ],
-    "synopsis": "Imprisoned during World War II in a German POW camp, a group of Allied soldiers are intent on breaking out, not only to escape, but also to draw Nazi forces away from battle to search for fugitives. Among the prisoners determined to escape are American Captain Virgil Hilts (Steve McQueen) and British Squadron Leader Roger Bartlett (Richard Attenborough). Outwitting their captors by digging a tunnel out of the prison grounds, the soldiers find the stakes much higher when escape becomes a reality.",
+    "synopsis": "Allied officers in a German POW camp during World War II make a daring plan for a mass escape.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMDRhNmJjMzEtMWU5MC00YmEyLTg3ZmYtNzYxZTI1ZGU4ZjI1XkEyXkFqcGc@._V1_QL75_UX380_CR0,16,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 928,
@@ -22630,11 +22645,16 @@
     "tomatometer": null,
     "reviews": 281690,
     "runtime": "1h 42m",
-    "director": "",
-    "cast": [],
-    "synopsis": "",
+    "director": "Zach Cregger",
+    "cast": [
+      "Georgina Campbell",
+      "Bill Skarsgård",
+      "Justin Long"
+    ],
+    "synopsis": "A woman staying at an Airbnb discovers that the house she has rented is not what it seems.",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BNWQ5MDgwMzMtNWZhMy00Y2Q4LWI5NTAtODA4MDIzYTExOGQzXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 929,
@@ -22652,14 +22672,14 @@
     "runtime": "1h 40m",
     "director": "David Cronenberg",
     "cast": [
-      "Viggo Mortensen",
       "Naomi Watts",
-      "Vincent Cassel",
+      "Viggo Mortensen",
       "Armin Mueller-Stahl"
     ],
-    "synopsis": "Nikolai (Viggo Mortensen), who is both ruthless and mysterious, has ties to one of the most dangerous crime families in London. He crosses paths with Anna (Naomi Watts), a midwife who has come across potentially damaging evidence against the family, which forces him to set in motion a plan of deceit, death and retribution.",
+    "synopsis": "A teenager who dies during childbirth leaves clues in her journal that could tie her child to a rape involving a violent Russian mob family.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTcwMzU0OTY3NF5BMl5BanBnXkFtZTYwNzkwNjg2._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 930,
@@ -22679,12 +22699,12 @@
     "cast": [
       "Dane DeHaan",
       "Alex Russell",
-      "Michael B. Jordan",
-      "Ashley Grace"
+      "Michael B. Jordan"
     ],
-    "synopsis": "Andrew (Dane DeHaan) is a socially awkward, introverted teen whose main form of escape and expression is a video camera. But things begin to change when Andrew, his cousin Matt (Alex Russell) and popular classmate Steve (Michael B. Jordan) discover a mysterious substance that leaves them with incredible powers. As their abilities become more powerful, the teens' lives spin out of control when their darker sides begin to emerge. Andrew's camera captures the unfolding events.",
+    "synopsis": "Three high school friends gain superpowers after making an incredible discovery underground. Soon they find their lives spinning out of control and their bond tested as they embrace their darker sides.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMDBmYmExZDUtYWQxZS00MWI4LTkyZTQtYzIxNzg3NjJkZjZhXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 931,
@@ -22700,16 +22720,16 @@
     "tomatometer": 61,
     "reviews": 281029,
     "runtime": "1h 28m",
-    "director": "Mark Neveldine",
+    "director": "Mark Neveldine, Brian Taylor",
     "cast": [
       "Jason Statham",
       "Amy Smart",
-      "Efren Ramirez",
-      "Jose Pablo Cantillo"
+      "Carlos Sanz"
     ],
-    "synopsis": "Chev Chelios (Jason Statham), a hit man wanting to go straight, lets his latest target slip away, then he awakes the next morning to a phone call that informs him he has been poisoned and has only an hour to live unless he keeps adrenaline coursing through his body while he searches for an antidote.",
+    "synopsis": "Professional assassin Chev Chelios learns his rival has injected him with a poison that will kill him if his heart rate drops.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMjg0NjAxNDY4MV5BMl5BanBnXkFtZTcwODA5MjMzMw@@._V1_QL75_UX380_CR0,2,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 932,
@@ -22725,11 +22745,16 @@
     "tomatometer": null,
     "reviews": 280983,
     "runtime": "2h 02m",
-    "director": "",
-    "cast": [],
-    "synopsis": "",
+    "director": "Anthony Russo, Joe Russo",
+    "cast": [
+      "Ryan Gosling",
+      "Chris Evans",
+      "Ana de Armas"
+    ],
+    "synopsis": "When the CIA's most skilled operative, whose true identity is known to none, accidentally uncovers dark agency secrets, a psychopathic former colleague puts a bounty on his head, setting off a global manhunt by international assas...",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BZmFhZTNlNzctZGQzZi00MTA3LThiNjMtYWQzNjUzMjNjZjA3XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 933,
@@ -22745,11 +22770,16 @@
     "tomatometer": null,
     "reviews": 280616,
     "runtime": "2h 14m",
-    "director": "",
-    "cast": [],
-    "synopsis": "",
+    "director": "John Francis Daley, Jonathan Goldstein",
+    "cast": [
+      "Chris Pine",
+      "Michelle Rodriguez",
+      "Regé-Jean Page"
+    ],
+    "synopsis": "A charming thief and a band of unlikely adventurers embark on an epic quest to retrieve a lost relic, but things go dangerously awry when they run afoul of the wrong people.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BOGRjMjQ0ZDAtODc0OS00MGY1LTkxMTMtODhhNjY5NTM4N2IwXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 934,
@@ -22768,13 +22798,13 @@
     "director": "Neil Marshall",
     "cast": [
       "Shauna Macdonald",
-      "Alex Reid",
-      "Natalie Jackson Mendoza",
-      "Saskia Mulder"
+      "Natalie Mendoza",
+      "Alex Reid"
     ],
-    "synopsis": "A year after a severe emotional trauma, Sarah (Shauna Macdonald) goes to North Carolina to spend some time exploring caves with her friends; after descending underground, the women find strange cave paintings and evidence of an earlier expedition, then learn they are not alone: Underground predators inhabit the crevasses, and they have a taste for human flesh.",
+    "synopsis": "A caving expedition goes horribly wrong when six explorers become trapped and ultimately pursued by a strange breed of predators.",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMjA5NzQ1NTgwNV5BMl5BanBnXkFtZTcwNjUxMzUzMw@@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 935,
@@ -22788,18 +22818,18 @@
     "imdb10": 71,
     "audienceAvg": 44.5,
     "tomatometer": 13,
-    "reviews": 279944,
+    "reviews": 279956,
     "runtime": "1h 40m",
-    "director": "Franck Khalfoun",
+    "director": "Dan Trachtenberg",
     "cast": [
-      "Kristine Froseth",
-      "Logan Miller",
-      "Jolene Anderson",
-      "Anthony Jensen"
+      "Amber Midthunder",
+      "Dakota Beavers",
+      "Dane DiLiegro"
     ],
-    "synopsis": "A bloodthirsty jungle creature terrorizes a young man and a mysterious woman on a seemingly idyllic island.",
+    "synopsis": "Naru, a skilled warrior of the Comanche Nation, fights to protect her tribe against one of the first highly-evolved Predators to land on Earth.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMWVjYTBlYjktODhjZS00OTUyLTg4MzctODI4MTkyNDE5YzY0XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 936,
@@ -22818,13 +22848,13 @@
     "director": "Joe Dante",
     "cast": [
       "Zach Galligan",
-      "Hoyt Axton",
-      "Frances Lee McCain",
-      "Phoebe Cates"
+      "Phoebe Cates",
+      "Hoyt Axton"
     ],
-    "synopsis": "A gadget salesman is looking for a special gift for his son and finds one at a store in Chinatown. The shopkeeper is reluctant to sell him the \"mogwai\" but sells it to him with the warning to never expose him to bright light, water, or to feed him after midnight. All of this happens and the result is a gang of gremlins that decide to tear up the town on Christmas Eve.",
+    "synopsis": "After receiving an exotic small animal as a Christmas gift, a young man inadvertently breaks three important rules concerning his new pet, which unleashes a horde of malevolently mischievous creatures on a small town.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BYmMzMmIxNzYtYjk3OS00NjBiLTkxNDQtODU3ZDNjN2RiMTIxXkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 937,
@@ -22840,11 +22870,16 @@
     "tomatometer": null,
     "reviews": 279890,
     "runtime": "1h 34m",
-    "director": "",
-    "cast": [],
-    "synopsis": "",
+    "director": "Mark Herman",
+    "cast": [
+      "Asa Butterfield",
+      "David Thewlis",
+      "Rupert Friend"
+    ],
+    "synopsis": "Through the innocent eyes of Bruno, the eight-year-old son of the commandant at a German concentration camp, a forbidden friendship with a Jewish boy on the other side of the camp fence has startling and unexpected consequences.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTMzMTc3MjA5NF5BMl5BanBnXkFtZTcwOTk3MDE5MQ@@._V1_QL75_UY562_CR1,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 938,
@@ -22864,12 +22899,12 @@
     "cast": [
       "Russell Crowe",
       "Jennifer Connelly",
-      "Ray Winstone",
-      "Emma Watson"
+      "Anthony Hopkins"
     ],
-    "synopsis": "When God decides that mankind has become too sinful and must be wiped off the Earth, he chooses Noah (Russell Crowe), a pious man, for a great task. Noah must build an ark large enough to hold his wife (Jennifer Connelly), adopted daughter (Emma Watson), sons (Logan Lerman, Douglas Booth, Leo McHugh Carroll) and their wives -- plus breeding pairs of every animal. When the task is completed, Noah and his family witness God's wrath in the form of an apocalyptic flood.",
+    "synopsis": "Noah is chosen by God to undertake a momentous mission before an apocalyptic flood cleanses the world.",
     "posterGradient": "linear-gradient(135deg, #d93025 0%, #7f1d1d 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMjI2OTgyNTc0Ml5BMl5BanBnXkFtZTgwNDM1NTQxMTE@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 939,
@@ -22887,14 +22922,14 @@
     "runtime": "1h 36m",
     "director": "Carlos Saldanha",
     "cast": [
-      "Anne Hathaway",
       "Jesse Eisenberg",
-      "will.i.am",
-      "Jamie Foxx"
+      "Anne Hathaway",
+      "George Lopez"
     ],
-    "synopsis": "Captured by smugglers when he was just a hatchling, a macaw named Blu (Jesse Eisenberg) never learned to fly and lives a happily domesticated life in Minnesota with his human friend, Linda. Blu is thought to be the last of his kind, but when word comes that Jewel (Anne Hathaway), a lone female, lives in Rio de Janeiro, Blu and Linda go to meet her. Animal smugglers kidnap Blu and Jewel, but the pair soon escape and begin a perilous adventure back to freedom -- and Linda.",
+    "synopsis": "When Blu, a domesticated macaw from small-town Minnesota, meets the fiercely independent Jewel, he takes off on an adventure to Rio de Janeiro with the bird of his dreams.",
     "posterGradient": "linear-gradient(135deg, #e37400 0%, #7c2d12 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTU2MDY3MzAzMl5BMl5BanBnXkFtZTcwMTg0NjM5NA@@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 940,
@@ -22914,12 +22949,12 @@
     "cast": [
       "Liam Neeson",
       "Bradley Cooper",
-      "Sharlto Copley",
-      "Jessica Biel"
+      "Sharlto Copley"
     ],
-    "synopsis": "A man who loves when a plan comes together, Hannibal Smith (Liam Neeson) leads a close-knit team of elite operatives. Framed for a terrible crime, Smith and his men go rogue, using their special talents to clear their names and find the perpetrator. Hot on their trail is Charissa Sosa (Jessica Biel), who was once involved with a member of Smith's team and has sworn to capture them, no matter what it takes.",
+    "synopsis": "A group of Iraq War veterans look to clear their name with the U.S. Military, who suspect the four men of committing a crime for which they were framed.",
     "posterGradient": "linear-gradient(135deg, #5e35b1 0%, #311b92 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTc4ODc4NTQ1N15BMl5BanBnXkFtZTcwNDUxODUyMw@@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 941,
@@ -22937,14 +22972,14 @@
     "runtime": "2h 11m",
     "director": "Bong Joon Ho",
     "cast": [
-      "Song Kang Ho",
+      "Song Kang-ho",
       "Kim Sang-kyung",
-      "Roe-ha Kim",
-      "Kim Rwe-ha"
+      "Kim Roe-ha"
     ],
-    "synopsis": "In 1986, Park (Song Kang-ho) and Cho (Kim Roi-ha) are two simple-minded detectives assigned to a double murder investigation in a South Korean province. But when the murderer strikes several more times with the same pattern, the detectives realize that they are chasing the country's first documented serial killer. Relying on only their basic skills and tools, Park and Jo attempt to piece together the clues and solve the case in this thriller based on true events.",
+    "synopsis": "In a small Korean province in 1986, two detectives struggle with the case of multiple young women being found raped and murdered by an unknown culprit.",
     "posterGradient": "linear-gradient(135deg, #00838f 0%, #004d40 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BYmRjOWE5NmMtYTdkYS00ODFlLWJiMTMtYzE2NDZlZjlkZDQ0XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 942,
@@ -22964,12 +22999,12 @@
     "cast": [
       "Viggo Mortensen",
       "Maria Bello",
-      "Ed Harris",
-      "William Hurt"
+      "Ed Harris"
     ],
-    "synopsis": "When a pair of petty criminals attempt to rob his small-town diner, Tom Stall (Viggo Mortensen) quickly and easily kills them both. In the flush of news coverage of Tom's seemingly heroic actions, a threatening stranger named Carl Fogarty (Ed Harris) comes to town, fingering the unassuming family man as long-missing Philadelphia mobster Joey Cusack. To the horror of his wife, Edie (Maria Bello), and teenage son, Jack (Ashton Holmes), Tom finds he must confront his violent past.",
+    "synopsis": "A mild-mannered man becomes a local hero through an act of violence, which sets off repercussions that will shake his family to its very core.",
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTczMzIzMTQ1OV5BMl5BanBnXkFtZTYwMDQwNjk2._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 943,
@@ -22988,13 +23023,13 @@
     "director": "Bryan Singer",
     "cast": [
       "Tom Cruise",
-      "Kenneth Branagh",
       "Bill Nighy",
-      "Tom Wilkinson"
+      "Carice van Houten"
     ],
-    "synopsis": "Col. Claus von Stauffenberg (Tom Cruise) serves Germany with loyalty and pride but fears that Hitler will destroy his country if allowed to run unchecked. With time running out for Germany and the rest of Europe, von Stauffenberg joins a group of like-minded, high-ranking men who want to overthrow the Nazi regime from within. With everything he holds dear in the balance, von Stauffenberg becomes the trigger man in a plot to assassinate the evil dictator.",
+    "synopsis": "A dramatization of the July 20, 1944 assassination and political coup plot by desperate renegade German Army officers against Adolf Hitler during World War II.",
     "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
-    "posterUrl": ""
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BMTg3Njc2ODEyN15BMl5BanBnXkFtZTcwNTAwMzc3NA@@._V1_QL75_UX380_CR0,16,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   },
   {
     "id": 944,
@@ -203580,5 +203615,30 @@
     "posterGradient": "linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%)",
     "posterUrl": "https://m.media-amazon.com/images/M/MV5BN2MzOTJiOTItODBjOS00MjVhLWFiOWQtOTVjOTAyM2NkODM2XkEyXkFqcGc@._V1_QL75_UY562_CR27,0,380,562_.jpg",
     "lastHydrated": "2026-11-23"
+  },
+  {
+    "id": 8629,
+    "imdbId": "tt32558705",
+    "title": "The Hunger Games: Sunrise on the Reaping",
+    "year": 2026,
+    "decade": "2020s",
+    "genre": "Action",
+    "popcorn": null,
+    "imdbRaw": 7.6,
+    "imdb10": 76,
+    "audienceAvg": 76,
+    "tomatometer": 76,
+    "reviews": 22802,
+    "runtime": "2h 38m",
+    "director": "Francis Lawrence",
+    "cast": [
+      "Joseph Zada",
+      "Jesse Plemons",
+      "Ralph Fiennes"
+    ],
+    "synopsis": "Revisit the world of Panem 24 years before the events of The Hunger Games, starting on the morning of the reaping of the 50th Hunger Games, also known as the Second Quarter Quell.",
+    "posterGradient": "linear-gradient(135deg, #188038 0%, #0d5323 100%)",
+    "posterUrl": "https://m.media-amazon.com/images/M/MV5BNjEzYTE2ODEtNzY5Zi00ZmVmLWEyYzEtYjdlZWU2NjcyYzMzXkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+    "lastHydrated": "2026-11-24"
   }
 ]
